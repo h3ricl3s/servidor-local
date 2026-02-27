@@ -1,103 +1,68 @@
-export interface ServicoType {
+interface ResponseType {
+    sucesso: boolean,
+    mensage: string,
+    data: servicoType | null,
+}
+
+interface servicoType {
     nome: string,
     precoHora: number,
     categoria: string,
-    minimoDesconto?: number,
-    percentagemDesconto?: number
+    minimodescontado: number,
+    percentagendescontado: number,
 }
 
-interface ResponseType{
-    status: boolean,
-    message: string,
-    data: ServicoType | null
-
-}
-
-export let catalogoServicos: ServicoType[] = [
-
-    {
-        nome: "servicoTeste1",
-        precoHora: 12.0,
-        categoria: "categoriaTeste1",
-        minimoDesconto: 4.0,
-        percentagemDesconto: 5.3
-    },
-    {
-        nome: "servicoTeste2",
-        precoHora: 8.0,
-        categoria: "categoriaTeste2",
-        minimoDesconto: 12.0,
-        percentagemDesconto: 8.0
-    },
-    {
-        nome: "servicoTeste3",
-        precoHora: 18.0,
-        categoria: "categoriaTeste3",
-        minimoDesconto: 2.0,
-        percentagemDesconto: 3.3
-
-    }
-]
-
-// Adicionar - novo servico
-export function adicionarServico(servico: ServicoType): ResponseType {
+export let catalogoDeServicos: servicoType[] = []
+//adicionar un serviço novo//
+export function adicionarservico(servico: servicoType): ResponseType {
     if (!servico.nome || servico.precoHora <= 0) {
-
         return {
-            status: false,
-            message: "O nome do serviço precisa existir e o preço ser maior que 0",
+            sucesso: false,
+            mensage: "nome invalido ou preço por hora deve ser maior que 0",
             data: null
         }
     }
 
-    for (const s of catalogoServicos) {
-        if (s?.nome === servico.nome) {
+    for (let i = 0; i < catalogoDeServicos.length; i++) {
+        if (catalogoDeServicos[i]?.nome === servico.nome) {
             return {
-                status: false,
-                message: `O serviço com nome ${servico.nome} já existe`,
-                data: null
+                sucesso: false,
+                mensage: "serviço ja existe no catálogo",
+                data: null,
             }
-
         }
     }
-
-    catalogoServicos.push(servico);
+    catalogoDeServicos.push(servico)
     return {
-        status: true,
-        message: "serviço adicionado com sucesso!",
-        data: servico
+        sucesso: true,
+        mensage: "servico adicinado com sucesso",
+        data: servico,
     }
-
 }
 
-// listar todos os servicos 
-export function listarServicos():ServicoType[] {
-    //TODO: inplementar fetch de servicos 
-    
-    return catalogoServicos
+// listar todos os serviços
+export function listarServicos(): servicoType[] {
+    //TODO: implementar fetch de servico
+    return catalogoDeServicos
 }
+// apagar um servico           
+export function apagarServico(nome: string): boolean {
+    //TODO: implimentar delete de servico
 
-// apagar um novo servico
-export function apagarServico (nome :string): boolean{
-    //TUDO : implementar delete de servico 
+    const novoCatalogoTemp: servicoType[] = []
 
-    const novoCatalogoTemp: ServicoType[] = [] 
-    
-    for (let i = 0; i <catalogoServicos.length; i++) {
-        if (catalogoServicos[i]?.nome !== undefined && catalogoServicos [i]?.nome !== nome ){
-            novoCatalogoTemp.push(catalogoServicos[i]!)
+    for (let i = 0; i < catalogoDeServicos.length; i++) {
+        if (catalogoDeServicos[i]?.nome !== undefined && catalogoDeServicos[i]?.nome !== nome) {
+            novoCatalogoTemp.push(catalogoDeServicos[i]!)
         }
-        
-    }// devolve um novo catalogo sem o servico que foi  apagado 
-    
-    catalogoServicos = novoCatalogoTemp
+    }// devolve um novo catalogo
+    catalogoDeServicos = novoCatalogoTemp
     return true
 }
-// obter um servico pelo nome
-export function obterservico( nome :string): ServicoType | null{ 
-    for (let i =0; i < catalogoServicos.length; i++){
-        if (catalogoServicos[i]?.nome === nome ){
-            return catalogoServicos[i]!
+export function obterServico(nome: string): servicoType | null {
+    for (let i = 0; i < catalogoDeServicos.length; i++) {
+        if (catalogoDeServicos[i]?.nome === nome) {
+            return catalogoDeServicos[i!]!
         }
     }
     return null

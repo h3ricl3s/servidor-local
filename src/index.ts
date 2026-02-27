@@ -1,31 +1,34 @@
 import express, { type Request, type Response } from "express";
-import { adicionarServico, apagarServico, listarServicos, obterservico } from "./servico.js";
+import { adicionarservico, listarServicos, apagarServico, obterServico } from "./servico.js";
+import { seleccionarServicos } from "./orcamento.js";
 
-
-const app = express()
+const app = express();
 app.use(express.json())
 
 app.get("/hello", (req: Request, res: Response) => {
-    res.json("Hello Word!");
-})
-// rota para adicionar um servico novo 
+    console.log("hello world");
+    res.send("hello wrold")
+});
+//rota para adicionar um serviço novo
 app.post("/adicionar-servico", (req: Request, res: Response) => {
-    const novoServico = req.body
+    const servico = req.body
 
-    console.log(novoServico);
+    console.log(servico)
 
-    const resposta = adicionarServico(novoServico)
-    res.json(resposta)
+    const AddServicoResponse = adicionarservico(servico)
+    res.json(AddServicoResponse)
 })
-// rota para listar todos os servicos
-app.get("/listar-servicos", (req: Request, res: Response) => {
+
+
+//rota para listar todos os serviços
+app.get("/listar-servico", (req: Request, res: Response) => {
     const listServicoResponse = listarServicos()
 
     res.json(listServicoResponse)
 })
 
 
-//rota para apagar um servico
+//rota para apagar umm servico
 app.delete("/apagar-servico", (req: Request, res: Response) => {
     const { nome } = req.query
 
@@ -33,28 +36,39 @@ app.delete("/apagar-servico", (req: Request, res: Response) => {
         const apagarServicoResponse = apagarServico(nome as string)
 
         res.json(apagarServicoResponse)
-    }else{
+    } else {
         res.json({
-            menssage: "Nome do servico eh obrigatorio"
-        })
-    }
-})
-// rota para obter servico pelo nome 
-app.get("/obter-servico",(req: Request,res: Response)=>{
-    const {nome} =req.query
-
-    if ( nome) {
-        const obterServicoResponse = obterservico(nome as string)
-
-        res.json (obterServicoResponse)
-    }else{
-        res.json({
-            menssage: "Nome do servico do obrigatorio "
+            message: "Name do servico eh obrigatorio"
         })
     }
 })
 
+app.get("/obter-servico", (req: Request, res: Response) => {
+    const { nome } = req.query
+    if (nome) {
+        const obterServicoResponse = obterServico(nome as string)
+        res.json({
+            message: "Nome do servico eh obrigatorio"
+        })
+    }
+})
+
+// rota para selecionar servicos
+app.post("/selecionar-servico", (req: Request, res: Response) => {
+    const { nome } = req.body
+
+    const selecionarServicoResponse = seleccionarServicos(nome as string)
+    res.json(selecionarServicoResponse)
+})
+
+
+// rota para calcular orcamento
+app.post("/calcular-orcamento",(req: Request,res:Response)=>{
+    const { pedido} =req.body
+
+    const calcularOrca
+})
 
 app.listen(8080, () => {
-    console.log("server running on port 8080");
-})
+    console.log("servidor running on port 8080");
+});
