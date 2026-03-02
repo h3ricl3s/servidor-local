@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import { adicionarservico, listarServicos, apagarServico, obterServico } from "./servico.js";
-import { seleccionarServicos } from "./orcamento.js";
+import { calcularOrcamentoi, seleccionarServicos } from "./orcamento.js";
 
 const app = express();
 app.use(express.json())
@@ -66,7 +66,9 @@ app.post("/selecionar-servico", (req: Request, res: Response) => {
 app.post("/calcular-orcamento",(req: Request,res:Response)=>{
     const { pedido} =req.body
 
-    const calcularOrca
+    const calcularOrca = calcularOrcamentoi(pedido)
+
+    res.json(calcularOrca)
 })
 
 app.listen(8080, () => {

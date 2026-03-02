@@ -21,3 +21,12 @@
     data: ServicoType | null
 
 }
+export interface PrestadorType {
+    nome: string
+    precoHora: number
+    profissao: string
+    minimoParaDesconto: number
+    percentagemDesconto: number
+    taxaUrgencia: number
+
+}
