@@ -49,6 +49,7 @@ return{
 
 
 
+
 export function calcularOrcamentoi(pedido: PedidoServicoType,) {
     let totalBruto: number = 0
     let totalFinal: number = 0
@@ -69,4 +70,20 @@ export function calcularOrcamentoi(pedido: PedidoServicoType,) {
     }
     return totalFinal
 
+}
+
+//uma funcao para selecionar prestadores de servico
+export function selecionarPrestador(nomeDoPrestador: string){
+    //ciclo for que percorre o array de prestadoresDeServico
+    for (let i = 0; i < prestadoresDeServicos.length; i++){
+        //if que verifica se o item [i]do array eh igual ao nome recebido
+        if (prestadoresDeServicos[i]?.nome === nomeDoPrestador){
+            //se for igual, adicionar o item [i]ao array prestadores
+            prestadoresSelecionados.push(prestadoresDeServicos[i]!)
+            //retornar verdadeiro
+return true
+        }
+    }
+// senao return false
+return false
 }

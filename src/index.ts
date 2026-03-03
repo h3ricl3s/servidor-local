@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import { adicionarservico, listarServicos, apagarServico, obterServico } from "./servico.js";
-import { calcularOrcamentoi, seleccionarServicos } from "./orcamento.js";
+import { calcularOrcamentoi, criarPrestadoresDeServicos, seleccionarServicos, selecionarPrestador } from "./orcamento.js";
 
 const app = express();
 app.use(express.json())
@@ -71,6 +71,16 @@ app.post("/calcular-orcamento",(req: Request,res:Response)=>{
     res.json(calcularOrca)
 })
 
+//rota para selecionar prestadores
+app.post("/criar-prestador",(req:Request,res:Response)=>{
+    //pegar o corpo de requisicao com os dados do novo prestador
+    const { nome } = req.body
+    const criarPrestadorResponse = criarPrestadoresDeServicos (nome)
+
+res.json(criarPrestadorResponse)
+})
+
 app.listen(8080, () => {
     console.log("servidor running on port 8080");
 });
+
