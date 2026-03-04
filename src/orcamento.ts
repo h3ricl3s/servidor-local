@@ -1,80 +1,56 @@
 import { catalogoDeServicos } from "./servico.js"
-import { type PedidoServicoType, type PrestadorType, type ServicoType } from "./utils/types.js"
+import { type PedidoServicoType, type PrestadorType, type ServicoType, type ResponseType } from "./utils/types.js"
+
 
 const taxaUrgencia: number = 0.3
-const minimodescontado: number = 100
-const percentagendescontado: number = 0.1
-
+const minimoParaDesconto: number = 100
+const percentagemDesconto: number = 0.1
 
 const servicosSelecionados: ServicoType[] = []
-const prestadoresDeServicos: PrestadorType[] = []
+let prestadoresDeServico: PrestadorType[] = []
 const prestadoresSelecionados: PrestadorType[] = []
 
-
 // funcao para selecionar servicos e horasEstimadas
-
-export function seleccionarServicos(nome: string,) {
+export function selecionarServicos(nome: string) {
     for (let i = 0; i < catalogoDeServicos.length; i++) {
         if (catalogoDeServicos[i]?.nome === nome) {
             servicosSelecionados.push(catalogoDeServicos[i]!)
             return true
         }
-
-    } return false
+    }
+    return false
 }
 
-
-// funcao para criar prestadores de servico
-export function criarPrestadoresDeServicos(novoPrestador:PrestadorType){
-
-    // verificar se o prestador ja esta no array 
-    prestadoresDeServicos.map((prestadorExistente:PrestadorType) =>{
-        if (prestadorExistente.nome === novoPrestador.nome){
-            // se o prestador ja existir, retorna  uma messagem de erro
-            return{
+// fucnao para criar prestadores de servico
+export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
+    // verificar se o prestador ja esta no array
+    prestadoresDeServico.map((prestadorExistente: PrestadorType) => {
+        if (prestadorExistente.nome === novoPrestador.nome) {
+            // se o prestador ja existir, retorna uma mensagem de erro
+            return {
                 status: false,
                 message: "Ja existe um prestador de servico com esse nome",
+                data: null
             }
         }
     })
-    // se o prestador nao existir, adicionamos o novo prestador 
-prestadoresDeServicos.push(novoPrestador )
-return{
-    status: true,
-    message:"prestador adicionado com sucesso",
-    data:novoPrestador
+
+    // se o prestador nao existir, adicionamos o novo prestador
+    prestadoresDeServico.push(novoPrestador)
+    return {
+        status: true,
+        message: "Prestador de servico adicionado com sucesso",
+        data: novoPrestador
+    }
 }
 
-} 
-
-//funcao para editar um prestador de servico
-export function editarPrestadorDeServico(nomeDoPrestador: string,novosDadoDoPrestador){
-    //encontrar o prestador de servico a editar na minha lisa
-    // ciclo que percorre a lista e verifica o nome do prestador de servico
-    prestadoresDeServicos.map((prestadorExistente: PrestadorType) => {
-        if(prestadorExistente.nome === nomeDoPrestador){
-            prestadorExistente.nome = novosDadoDoPrestador.nome
-            prestadorExistente.precoHora= novosDadoDoPrestador.precoHora
-            prestadorExistente.profissao = novosDadoDoPrestador.profissao
-            prestadorExistente.minimoParaDesconto = novosDadoDoPrestador.minimoDesconto
-            prestadorExistente.nome == novosDadoDoPrestador
-            prestadorExistente.nome == novosDadoDoPrestador
-            
-        }
-    })
-}
-
-//prestadorDeServico.replace
-//fundo para pagar um prestador de servico
-
-
-export function calcularOrcamentoi(pedido: PedidoServicoType,) {
+// funcao para calcular o orcamento
+export function calcularOrcamento(pedido: PedidoServicoType) {
     let totalBruto: number = 0
     let totalFinal: number = 0
 
     servicosSelecionados.map((servico: ServicoType) => {
         let totalDoServico: number = servico.precoHora * pedido.horasEstimadas
-
         totalBruto = totalBruto + totalDoServico
     })
 
@@ -83,25 +59,106 @@ export function calcularOrcamentoi(pedido: PedidoServicoType,) {
     if (pedido.urgente) {
         totalFinal = totalBruto + (totalBruto * taxaUrgencia)
     }
-    if (totalBruto >= minimodescontado) {
-        totalFinal = totalFinal - (totalBruto * percentagendescontado)
-    }
-    return totalFinal
 
+    if (totalBruto >= minimoParaDesconto) {
+        totalFinal = totalFinal - (totalBruto * percentagemDesconto)
+    }
+
+    return totalFinal
 }
 
-//uma funcao para selecionar prestadores de servico
-export function selecionarPrestador(nomeDoPrestador: string){
-    //ciclo for que percorre o array de prestadoresDeServico
-    for (let i = 0; i < prestadoresDeServicos.length; i++){
-        //if que verifica se o item [i]do array eh igual ao nome recebido
-        if (prestadoresDeServicos[i]?.nome === nomeDoPrestador){
-            //se for igual, adicionar o item [i]ao array prestadores
-            prestadoresSelecionados.push(prestadoresDeServicos[i]!)
-            //retornar verdadeiro
-return true
+
+//funcao para selecionar prestador pelo nome
+export function selecionarPrestador(nome: string) {
+    let prestadorExiste = false
+    for (let i = 0; i < prestadoresDeServico.length; i++) {
+        if (prestadoresDeServico[i]?.nome === nome) {
+            prestadoresSelecionados.push(prestadoresDeServico[i]!)
+            prestadorExiste = true
+            break
         }
     }
-// senao return false
-return false
+
+    if (prestadorExiste) {
+        return "O prestador foi selecionado"
+    } else {
+        return "o prestador não existe"
+    }
+}
+
+//funcao para editar prestador de servico
+export function editarPrestadorDeServico(nomePrestador: string, novosDadosPrestador: PrestadorType
+): ResponseType {
+
+    const prestadorExistente = prestadoresDeServico.find(
+        (prestador: PrestadorType) => prestador.nome === nomePrestador
+    );
+
+    if (!prestadorExistente) {
+        return {
+            status: false,
+            message: `Prestador com nome ${nomePrestador} não existe`,
+            data: null
+        };
+    }
+
+    prestadorExistente.nome = novosDadosPrestador.nome;
+    prestadorExistente.precoHora = novosDadosPrestador.precoHora;
+    prestadorExistente.profissao = novosDadosPrestador.profissao;
+    prestadorExistente.minimoParaDesconto = novosDadosPrestador.minimoParaDesconto;
+    prestadorExistente.percentagemDesconto = novosDadosPrestador.percentagemDesconto;
+    prestadorExistente.taxaUrgencia = novosDadosPrestador.taxaUrgencia;
+
+    return {
+        status: true,
+        message: "Prestador de serviço editado com sucesso",
+        data: prestadorExistente
+    };
+}
+
+//funcao para apagar um prestador de servico
+export function apagarPrestador(nomePrestador: string): ResponseType {
+
+    let newArray: PrestadorType[] = []
+    let prestadorExiste = false
+    let prestador: PrestadorType | null = null
+
+    if (nomePrestador === "") {
+        return {
+            status: false,
+            message: `Nome não pode ser vazio`,
+            data: null
+        }
+    }
+
+    for (let i = 0; i < prestadoresDeServico.length; i++) {
+        if (prestadoresDeServico[i]?.nome !== nomePrestador) {
+            newArray.push(prestadoresDeServico[i]!)
+        } else {
+            prestadorExiste = true
+            prestador = prestadoresDeServico[i]!
+        }
+    }
+
+    // prestadoresDeServico = prestadoresDeServico.filter(
+    //     (prestadorExistente: PrestadorType) => {
+    //         return prestadorExistente.nome !== nomePrestador
+    //     })
+
+    if (prestadorExiste) {
+        prestadoresDeServico = newArray
+
+        return {
+            status: true,
+            message: "prestador de servico apagado com sucesso",
+            data: prestador
+        }
+    }
+
+    return {
+        status: false,
+        message: `Prestador com nome ${nomePrestador}  não existe`,
+        data: null
+    }
+
 }
