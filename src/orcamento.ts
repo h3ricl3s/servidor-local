@@ -47,7 +47,25 @@ return{
 
 } 
 
+//funcao para editar um prestador de servico
+export function editarPrestadorDeServico(nomeDoPrestador: string,novosDadoDoPrestador){
+    //encontrar o prestador de servico a editar na minha lisa
+    // ciclo que percorre a lista e verifica o nome do prestador de servico
+    prestadoresDeServicos.map((prestadorExistente: PrestadorType) => {
+        if(prestadorExistente.nome === nomeDoPrestador){
+            prestadorExistente.nome = novosDadoDoPrestador.nome
+            prestadorExistente.precoHora= novosDadoDoPrestador.precoHora
+            prestadorExistente.profissao = novosDadoDoPrestador.profissao
+            prestadorExistente.minimoParaDesconto = novosDadoDoPrestador.minimoDesconto
+            prestadorExistente.nome == novosDadoDoPrestador
+            prestadorExistente.nome == novosDadoDoPrestador
+            
+        }
+    })
+}
 
+//prestadorDeServico.replace
+//fundo para pagar um prestador de servico
 
 
 export function calcularOrcamentoi(pedido: PedidoServicoType,) {
