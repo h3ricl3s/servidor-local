@@ -1,27 +1,114 @@
-INSERT INTO tabela_utilizadores(
-id,
-nome,
-numero,
-data_nascimento,
-email,
-telefone,
-pais,
-localidade,
-`password`,
-enabled,
-created_at,
-update_at
-)VALUES (
-"380337bd-f2b9-4f86-b586-04dd9e1ab058",
-"Tiago_Soares",
-"M001K",
-"1997-10-21",
-"elizoare1@gmail.com",
-"9948113",
-"Cabo Verde",
-"Assomada",
-"$2a$12$XRVCRprChuiOFADTwBczYuWUhxiVpgAQwLRkdnJwbH6vOwHhOwXHm",
+-- ====================================
+-- INSERT UTILIZADOR
+-- ====================================
+INSERT INTO tabela_utilizadores VALUES(
+'63a3303c-b1cc-42c9-aa1d-88606de0fa20',
+'Joao Silva',
+'M001',
+'1995-02-10',
+'joao@gmail.com',
+'9911111',
+'Cabo Verde',
+'Praia',
+'123456',
 true,
 NOW(),
 NOW()
-)
+);
+
+-- ====================================
+-- INSERT PRESTADOR
+-- ====================================
+INSERT INTO tabela_prestadores VALUES(
+'380337bd-f2b9-4f86-b586-04dd9e1ab058',
+123456789,
+'canalizador',
+0.3,
+100,
+0.1,
+true,
+NOW(),
+NOW()
+);
+
+-- ====================================
+-- INSERT SERVIÇO
+-- ====================================
+INSERT INTO tabela_servicos VALUES(
+'serv1',
+'Instalacao de canalizacao',
+'10%',
+'canalizacao',
+true,
+NOW(),
+NOW()
+);
+
+-- ====================================
+-- INSERT ORÇAMENTO
+-- ====================================
+INSERT INTO tabela_orcamento (
+total,
+id_utilizador,
+id_prestador,
+enabled,
+created_at,
+updated_at
+) VALUES (
+200,
+'63a3303c-b1cc-42c9-aa1d-88606de0fa20',
+'380337bd-f2b9-4f86-b586-04dd9e1ab058',
+true,
+NOW(),
+NOW()
+);
+
+-- ====================================
+-- INSERT PRESTAÇÃO DE SERVIÇO
+-- ====================================
+INSERT INTO tabela_prestacao_servicos (
+designacao,
+subtotal,
+horas_estimadas,
+id_prestador,
+id_servico,
+preco_hora,
+estado,
+id_orcamento,
+enabled,
+created_at,
+updated_at
+) VALUES (
+'Instalacao de tubos',
+100,
+5,
+'380337bd-f2b9-4f86-b586-04dd9e1ab058',
+'serv1',
+20,
+'pendente',
+1,
+true,
+NOW(),
+NOW()
+);
+
+-- ====================================
+-- INSERT PROPOSTA
+-- ====================================
+INSERT INTO tabela_proposta (
+id_prestacao_servico,
+preco_hora,
+horas_estimadas,
+estado,
+enabled,
+created_at,
+updated_at
+) VALUES (
+1,
+20,
+5,
+'pendente',
+true,
+NOW(),
+NOW()
+);

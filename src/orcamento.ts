@@ -87,8 +87,7 @@ export function selecionarPrestador(nome: string) {
 }
 
 //funcao para editar prestador de servico
-export function editarPrestadorDeServico(nomePrestador: string, novosDadosPrestador: PrestadorType
-): ResponseType {
+export function editarPrestadorDeServico(nomePrestador: string, novosDadosPrestador: PrestadorType): ResponseType {
 
     const prestadorExistente = prestadoresDeServico.find(
         (prestador: PrestadorType) => prestador.nome === nomePrestador

@@ -18,7 +18,7 @@
     export interface ResponseType{
     status: boolean,
     message: string,
-    data: ServicoType | null
+    data: PrestadorType | ServicoType | null
 
 }
 export interface PrestadorType {
