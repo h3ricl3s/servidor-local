@@ -1,3 +1,4 @@
+import db from "./lib/db.js"
 import { catalogoDeServicos } from "./servico.js"
 import { type PedidoServicoType, type PrestadorType, type ServicoType, type ResponseType } from "./utils/types.js"
 
@@ -21,26 +22,22 @@ export function selecionarServicos(nome: string) {
     return false
 }
 
-// fucnao para criar prestadores de servico
-export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
-    // verificar se o prestador ja esta no array
-    prestadoresDeServico.map((prestadorExistente: PrestadorType) => {
-        if (prestadorExistente.nome === novoPrestador.nome) {
-            // se o prestador ja existir, retorna uma mensagem de erro
-            return {
-                status: false,
-                message: "Ja existe um prestador de servico com esse nome",
-                data: null
-            }
-        }
-    })
-
-    // se o prestador nao existir, adicionamos o novo prestador
-    prestadoresDeServico.push(novoPrestador)
-    return {
-        status: true,
-        message: "Prestador de servico adicionado com sucesso",
-        data: novoPrestador
+// funcao para criar prestadores de servico
+export  async function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
+    try{
+        const[rows] = await db.execute(
+            `INSERT INTO tabela_prestadores
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [novoPrestador.id, novoPrestador.nif,novoPrestador.profissao,
+                novoPrestador.taxa_urgencia,novoPrestador.minimo_desconto,
+                novoPrestador.percentagem_desconto,novoPrestador.enabled, new Date,new Date
+            ]
+        )
+        console.log({rows});
+        return rows
+    }catch(error){
+        console.log(error);
+        return null
     }
 }
 

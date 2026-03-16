@@ -6,7 +6,7 @@ import { calcularOrcamento, criarPrestadoresDeServico, editarPrestadorDeServico,
 
 import { getUserByid, getUsers, createUser } from "./users.js";
 
-import { type UserType } from "./utils/types.js";
+import { type PrestadorType, type UserType } from "./utils/types.js";
 
 const app = express();
 app.use(express.json())
@@ -19,11 +19,21 @@ app.get("/hello", (req: Request, res: Response) => {
 
 
 // adicionar serviço
-app.post("/adicionar-servico", (req: Request, res: Response) => {
+app.post("/adicionar-servico", async (req: Request, res: Response) => {
 
     const servico = req.body
 
-    const AddServicoResponse = adicionarservico(servico)
+    if(!servico){
+        res.status(400).json(
+            {
+                status: false,
+                message: "Erro ao adicionar serviço",
+                data:null
+            }
+        )
+    }
+
+    const AddServicoResponse = await adicionarservico(servico)
 
     res.json(AddServicoResponse)
 })
@@ -99,11 +109,19 @@ app.post("/calcular-orcamento", (req: Request, res: Response) => {
 
 
 // criar prestador
-app.post("/criar-prestador", (req: Request, res: Response) => {
+app.post("/criar-prestador", async (req: Request, res: Response) => {
+    const novoPrestador: PrestadorType = req.body
+    if (!novoPrestador) {
+        res.status(400).json(
+            {
+                status: "error",
+                message: "Dados do prestadores invalidos",
+                date: null
+            }
+        )
+    }
 
-    const { nome } = req.body
-
-    const criarPrestadorResponse = criarPrestadoresDeServico(nome)
+    const criarPrestadorResponse = await criarPrestadoresDeServico(novoPrestador)
 
     res.json(criarPrestadorResponse)
 
