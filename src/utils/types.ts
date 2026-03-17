@@ -8,7 +8,7 @@ export interface PedidoServicoType {
 }
 
 export interface ServicoType {
-    id:string,
+    id: string,
     nome: string,
     desconto: number,
     categoria: string,
@@ -35,6 +35,12 @@ export interface PrestadorType {
     updated_at: string
 
 }
+export interface PrestadorType {
+    nome: string,
+    minimoParaDesconto: number,
+    percentagemDesconto: number,
+   taxaUrgencia: boolean;
+}
 
 export interface UserType {
     id: string,
@@ -46,6 +52,16 @@ export interface UserType {
     pais: string,
     localidade: string,
     password: string
+    enabled: boolean,
+    created_at: string,
+    updated_at: string
+}
+
+export interface ServicoDBType {
+    id: string,
+    nome: string,
+    descricao: number,
+    categoria: string,
     enabled: boolean,
     created_at: string,
     updated_at: string

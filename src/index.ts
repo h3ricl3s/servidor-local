@@ -1,12 +1,12 @@
 import express, { type Request, type Response } from "express";
 
-import { adicionarservico, listarServicos, apagarServico, obterServico } from "./servico.js";
+import { adicionarservico, listarServicos, apagarServico, obterServico, addServicesToDB, getServiceByID, getAllServices, updateService, updatedService } from "./servico.js";
 
 import { calcularOrcamento, criarPrestadoresDeServico, editarPrestadorDeServico, selecionarServicos } from "./orcamento.js";
 
 import { getUserByid, getUsers, createUser } from "./users.js";
 
-import { type PrestadorType, type UserType } from "./utils/types.js";
+import { type PrestadorType, type ServicoDBType, type UserType } from "./utils/types.js";
 
 const app = express();
 app.use(express.json())
@@ -23,12 +23,12 @@ app.post("/adicionar-servico", async (req: Request, res: Response) => {
 
     const servico = req.body
 
-    if(!servico){
+    if (!servico) {
         res.status(400).json(
             {
                 status: false,
                 message: "Erro ao adicionar serviço",
-                data:null
+                data: null
             }
         )
     }
@@ -206,7 +206,117 @@ app.post("/create-user", async (req: Request, res: Response) => {
 
 })
 
+app.post("/create-servoce", async (req: Request, res: Response) => {
+    const newService: ServicoDBType = req.body
+
+    if (!newService) {
+        res.status(400).json({
+            status: "error",
+            message: "Dados de servico invalidos",
+            data: null
+        })
+    }
+
+    console.log(newService)
+
+    const createServiceResponse = await addServicesToDB(newService)
+
+    if (createServiceResponse === null) {
+        return res.status(400).json({
+            status: "error",
+            message: "Erro ao criar servico",
+            data: null
+        })
+    }
+    res.json(createServiceResponse)
+})
+
+app.get("/get-service-by-id", async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    if (!id) {
+        return res.status(400).json({
+            status: "error",
+            message: "ID obrigatorio",
+            data: null
+        })
+    }
+
+    const getServiceByIDResponse = await getServiceByID(id as string)
+
+    if (!getServiceByIDResponse) {
+        return res.status(400).json({
+            status: "error",
+            message: "Servidor nao encontrado",
+            data: null
+        })
+    }
+    res.status(200).json({
+        status: "success",
+        message: "Servico encontrado",
+        data: getServiceByIDResponse
+    })
+})
+
+app.get("/get-all-services", async (req: Request, res: Response) => {
+    const getAllServicesResponse = await getAllServices()
+
+    if (!getAllServicesResponse) {
+        return res.status(400).json({
+            status: "error",
+            message: "Erro ao selecionar servico",
+            data: null
+        })
+    }
+    res.status(200).json({
+        status: "success",
+        message: "Servico encontrado",
+        data: getAllServicesResponse
+    })
+})
+
+
+app.put("/update-service-by-id/:id", async (req: Request, res: Response) => {
+    const { id } = req.params
+    const updatedServicos: ServicoDBType = req.body
+
+    if (!updatedServicos) {
+        return res.status(400).json({
+            status: "error",
+            message: "ID obrigatorio",
+            data: null
+        })
+    }
+
+    if (!updatedServicos) {
+        return res.status(400).json({
+            status: "error",
+            message: "Dados de servicos invalido",
+            data: null
+        })
+    }
+    const updateServiceResponse = await updateService(id as string, updatedService)
+
+    if (!updateServiceResponse) {
+        return res.status(400).json({
+            status: "error",
+            message: "Erro ad utualizar servico",
+            data: null
+        })
+    }
+    return res.status(200).json({
+        status: "success",
+        message: "servico atualizado com sucesso",
+        data: updateServiceResponse
+    })
+})
+app.delete("/delete-servico-by-id/:id",async(re: Request, res: Response) =>{
+    
+})
+
+
 
 app.listen(8080, () => {
     console.log("Servidor running on port 8080");
 });
+
