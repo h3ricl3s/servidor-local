@@ -1,5 +1,9 @@
+import { format } from "node:path"
 import db from "./lib/db.js"
+import { hashpassword } from "./utils/password.js"
 import type { UserType } from "./utils/types.js"
+import { generateUUID } from "./utils/uuid.js"
+import { formatDateDDMMYYYY } from "./utils/date.js"
 
 export async function getUsers() {
     const [rows] = await db.execute("SELECT * FROM Tabela_utilizadores")
@@ -23,18 +27,70 @@ export async function getUserByid(id: string) {
 
 // get date now
 export async function createUser(user: UserType) {
-    console.log (user)
+    console.log(user)
     try {
         const [rows] = await db.execute(
             `INSERT INTO tabela_utilizadores
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [user.id, user.nome, user.numero_identificacao, user.data_nascimento, user.email, user.telefone,
-            user.pais, user.localidade, user.password, user.enabled,new Date(),new Date(),]
+            [
+                generateUUID(),
+                user.nome,
+                user.numero_identificacao,
+            formatDateDDMMYYYY(user.data_nascimento),
+                user.email,
+                user.telefone,
+                user.pais,
+                user.localidade,
+                await hashpassword(user.password),
+                user.enabled,
+                new Date(),
+                new Date()
+            ]
         )
         console.log({ rows });
         return rows
     } catch (err) {
         console.log(err);
+        return null
+    }
+}
+
+export async function updateUser(id: string, updatedUser: UserType) {
+    try {
+        const query = `
+        UPDATE tabela_utilizadores
+        SET
+            nome=?,
+            numero_identificacao=?,
+            data_nascimento=?,
+            email=?,
+            telefone=?,
+            pais=?,
+            localidade=?,
+            password=?,
+            enabled=?,
+            updated_at=?
+        WHERE id=?
+        `
+
+        const values = [
+            updatedUser.nome, 
+            updatedUser.numero_identificacao,
+            formatDateDDMMYYYY(updatedUser.data_nascimento),
+            updatedUser.email,
+            updatedUser.telefone,
+            updatedUser.pais,
+            updatedUser.localidade,
+            await hashpassword(updatedUser.password),
+            updatedUser.enabled,
+            new Date(),
+            id
+        ]
+
+        const rows = await db.execute(query, values)
+        return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+    }catch (err) {
+        console.log(err)
         return null
     }
 }

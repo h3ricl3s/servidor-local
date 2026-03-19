@@ -37,9 +37,11 @@ export interface PrestadorType {
 }
 export interface PrestadorType {
     nome: string,
+    precoHora: number,
     minimoParaDesconto: number,
     percentagemDesconto: number,
-   taxaUrgencia: boolean;
+    taxaUrgencia: boolean;
+
 }
 
 export interface UserType {

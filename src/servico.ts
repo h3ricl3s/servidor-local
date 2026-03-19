@@ -1,6 +1,6 @@
 import { error } from "node:console";
 import db from "./lib/db.js"
-import type { ServicoDBType, ServicoType } from "./utils/types.js";
+import type { ServicoDBType, ServicoType  } from "./utils/types.js";
 
 interface ResponseType {
     sucesso: boolean,
@@ -126,8 +126,7 @@ export async function getAllServices() {
 //update de dados 
 export async function updateService(id:string, updatedService : ServicoDBType) {
     try {
-        const query = 
-        'UPDATE tabela_servicos SET nome=?, descricao=?, categoria=?, enabled=?, updated_at=? WHERE id=? ;'
+        const query = 'UPDATE tabela_servicos SET nome=?, descricao=?, categoria=?, enabled=?, updated_at=? WHERE id=? ;'
 
         const values = [
 updatedService.nome,
@@ -147,6 +146,15 @@ id
 export async function deleteService(id:string) {
     try {
         const query = 
-    'DELETE FROM tabela_servicos WHERE id =?'
+    'DELETE FROM tabela_servicos WHERE id =?';
+    const value = [id];
 
-}}
+
+    const rows: any = await db.execute(query,value );
+    return rows[0]?.affectedRows === 0 ? null : rows;
+}catch(error){
+    console.log(error);
+    return null
+}
+
+}

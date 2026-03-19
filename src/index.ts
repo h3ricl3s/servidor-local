@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 
-import { adicionarservico, listarServicos, apagarServico, obterServico, addServicesToDB, getServiceByID, getAllServices, updateService, updatedService } from "./servico.js";
+import { adicionarservico, listarServicos, apagarServico, obterServico, addServicesToDB, getServiceByID, getAllServices, updateService, deleteService } from "./servico.js";
 
 import { calcularOrcamento, criarPrestadoresDeServico, editarPrestadorDeServico, selecionarServicos } from "./orcamento.js";
 
@@ -295,7 +295,7 @@ app.put("/update-service-by-id/:id", async (req: Request, res: Response) => {
             data: null
         })
     }
-    const updateServiceResponse = await updateService(id as string, updatedService)
+    const updateServiceResponse = await updateService(id as string, updatedServicos)
 
     if (!updateServiceResponse) {
         return res.status(400).json({
@@ -310,9 +310,34 @@ app.put("/update-service-by-id/:id", async (req: Request, res: Response) => {
         data: updateServiceResponse
     })
 })
-app.delete("/delete-servico-by-id/:id",async(re: Request, res: Response) =>{
-    
-})
+//rota para apagar um servico por id
+app.delete("/delete-service-by-id/:id", async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({
+            status: "error",
+            message: "ID obrigatorio",
+            data: null,
+        });
+    }
+
+    const deleteServiceResponse = await deleteService(id as string);
+
+    if (!deleteServiceResponse) {
+        return res.status(400).json({
+            status: "error",
+            message: "Erro ao apagar servico",
+            data: null,
+        });
+    }
+
+    return res.status(200).json({
+        status: "success",
+        message: "Servico apagado com sucesso",
+        data: deleteServiceResponse,
+    });
+});
 
 
 
