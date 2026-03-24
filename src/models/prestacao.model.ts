@@ -1,18 +1,22 @@
 import db from "../lib/db.js";
-import type { propostaDBType } from "../utils/types.js";
+import type { prestacaoServicoDBType } from "../utils/types.js";
 
-export const PropostaModel = {
-    async create(newProposta: propostaDBType) {
+export const PrestacaoModel = {
+    async create(newPrestacaoServico: prestacaoServicoDBType) {
         try {
-            const query = `INSERT INTO tabela_proposta VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+            const query = `INSERT INTO tabela_prestacao_servicos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
             const values = [
                 null,
-                newProposta.id_prestacao_servico,
-                newProposta.preco_hora,
-                newProposta.horas_estimadas,
-                newProposta.estado,
-                newProposta.enabled,
+                newPrestacaoServico.designacao,
+                newPrestacaoServico.subtotal,
+                newPrestacaoServico.horas_estimadas,
+                newPrestacaoServico.id_prestador,
+                newPrestacaoServico.id_servico,
+                newPrestacaoServico.preco_hora,
+                newPrestacaoServico.estado,
+                newPrestacaoServico.id_orcamento,
+                newPrestacaoServico.enabled,
                 new Date(),
                 new Date(),
             ];
@@ -28,7 +32,7 @@ export const PropostaModel = {
 
     async getAll() {
         try {
-            const query = `SELECT * FROM tabela_proposta`;
+            const query = `SELECT * FROM tabela_prestacao_servicos`;
 
             const [rows] = await db.execute(query);
 
@@ -41,7 +45,7 @@ export const PropostaModel = {
 
     async get(id: string) {
         try {
-            const query = `SELECT * FROM tabela_proposta WHERE id = ?`;
+            const query = `SELECT * FROM tabela_prestacao_servicos WHERE id = ?`;
 
             const value = [id];
 
@@ -54,14 +58,18 @@ export const PropostaModel = {
         }
     },
 
-    async update(id: string, updatedProposta: propostaDBType) {
+    async update(id: string, updatedPrestacaoServico: prestacaoServicoDBType) {
         try {
-            const query = `UPDATE tabela_proposta 
+            const query = `UPDATE tabela_prestacao_servicos 
                         SET 
-                            id_prestacao_servico=?,
-                            preco_hora=?,
+                            designacao=?,
+                            subtotal=?,
                             horas_estimadas=?,
+                            id_prestador=?,
+                            id_servico=?,
+                            preco_hora=?,
                             estado=?,
+                            id_orcamento=?,
                             enabled=?,
                             updated_at=?
                         WHERE
@@ -69,11 +77,15 @@ export const PropostaModel = {
                         ;`;
 
             const values = [
-                updatedProposta.id_prestacao_servico,
-                updatedProposta.preco_hora,
-                updatedProposta.horas_estimadas,
-                updatedProposta.estado,
-                updatedProposta.enabled,
+                updatedPrestacaoServico.designacao,
+                updatedPrestacaoServico.subtotal,
+                updatedPrestacaoServico.horas_estimadas,
+                updatedPrestacaoServico.id_prestador,
+                updatedPrestacaoServico.id_servico,
+                updatedPrestacaoServico.preco_hora,
+                updatedPrestacaoServico.estado,
+                updatedPrestacaoServico.id_orcamento,
+                updatedPrestacaoServico.enabled,
                 new Date(),
                 id,
             ];
@@ -89,7 +101,7 @@ export const PropostaModel = {
 
     async delete(id: string) {
         try {
-            const query = `DELETE FROM tabela_proposta WHERE id = ?`;
+            const query = `DELETE FROM tabela_prestacao_servicos WHERE id = ?`;
 
             const value = [id];
 

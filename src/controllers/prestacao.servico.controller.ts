@@ -1,51 +1,51 @@
 import type { Request, Response } from "express";
-import { PrestadorModel } from "../models/prestador.model.js";
-import type { prestadorDBType } from "../utils/types.js";
+import { PrestacaoModel } from "../models/prestacao.model.js";
+import type { prestacaoServicoDBType } from "../utils/types.js";
 
-export const PrestadorController = {
+export const PrestacaoServicoController = {
     async create(req: Request, res: Response) {
-        const newPrestador: prestadorDBType = req.body;
+        const newPrestacaoServico: prestacaoServicoDBType = req.body;
 
-        if (!newPrestador) {
+        if (!newPrestacaoServico) {
             return res.status(400).json({
                 status: "error",
-                message: "Dados de prestador invalidos",
+                message: "Dados de prestacao de servico invalidos",
                 data: null
             });
         }
 
-        const createPrestadorResponse = await PrestadorModel.create(newPrestador);
+        const createPrestacaoServicoResponse = await PrestacaoModel.create(newPrestacaoServico);
 
-        if (createPrestadorResponse === null) {
+        if (createPrestacaoServicoResponse === null) {
             return res.status(400).json({
                 status: "error",
-                message: "Erro ao criar prestador",
+                message: "Erro ao criar prestacao de servico",
                 data: null
             });
         }
 
         return res.status(200).json({
             status: "success",
-            message: "Prestador criado com sucesso",
-            data: createPrestadorResponse
+            message: "Prestacao de servico criada com sucesso",
+            data: createPrestacaoServicoResponse
         });
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllPrestadorResponse = await PrestadorModel.getAll();
+        const getAllPrestacaoServicoResponse = await PrestacaoModel.getAll();
 
-        if (!getAllPrestadorResponse) {
+        if (!getAllPrestacaoServicoResponse) {
             return res.status(500).json({
                 status: "error",
-                message: "Erro ao buscar prestadores",
+                message: "Erro ao buscar prestacoes de servico",
                 data: null
             });
         }
 
         return res.status(200).json({
             status: "success",
-            message: "Prestadores buscados com sucesso",
-            data: getAllPrestadorResponse
+            message: "Prestacoes de servico buscadas com sucesso",
+            data: getAllPrestacaoServicoResponse
         });
     },
 
@@ -55,31 +55,31 @@ export const PrestadorController = {
         if (!id) {
             return res.status(400).json({
                 status: "error",
-                message: "ID de prestador nao fornecido",
+                message: "ID de prestacao de servico nao fornecido",
                 data: null
             });
         }
 
-        const getPrestadorResponse = await PrestadorModel.get(id as string);
+        const getPrestacaoServicoResponse = await PrestacaoModel.get(id as string);
 
-        if (!getPrestadorResponse) {
+        if (!getPrestacaoServicoResponse) {
             return res.status(404).json({
                 status: "error",
-                message: "Prestador nao encontrado",
+                message: "Prestacao de servico nao encontrada",
                 data: null
             });
         }
 
         return res.status(200).json({
             status: "success",
-            message: "Prestador encontrado com sucesso",
-            data: getPrestadorResponse
+            message: "Prestacao de servico encontrada com sucesso",
+            data: getPrestacaoServicoResponse
         });
     },
 
     async update(req: Request, res: Response) {
         const { id } = req.params;
-        const updatedPrestador: prestadorDBType = req.body;
+        const updatedPrestacaoServico: prestacaoServicoDBType = req.body;
 
         if (!id) {
             return res.status(400).json({
@@ -89,28 +89,28 @@ export const PrestadorController = {
             });
         }
 
-        if (!updatedPrestador) {
+        if (!updatedPrestacaoServico) {
             return res.status(400).json({
                 status: "error",
-                message: "Dados de prestador invalidos",
+                message: "Dados de prestacao de servico invalidos",
                 data: null,
             });
         }
 
-        const updatePrestadorResponse = await PrestadorModel.update(id as string, updatedPrestador);
+        const updatePrestacaoServicoResponse = await PrestacaoModel.update(id as string, updatedPrestacaoServico);
 
-        if (!updatePrestadorResponse) {
+        if (!updatePrestacaoServicoResponse) {
             return res.status(400).json({
                 status: "error",
-                message: "Erro ao atualizar prestador",
+                message: "Erro ao atualizar prestacao de servico",
                 data: null,
             });
         }
 
         return res.status(200).json({
             status: "success",
-            message: "Prestador atualizado com sucesso",
-            data: updatePrestadorResponse,
+            message: "Prestacao de servico atualizada com sucesso",
+            data: updatePrestacaoServicoResponse,
         });
     },
 
@@ -125,20 +125,20 @@ export const PrestadorController = {
             });
         }
 
-        const deletePrestadorResponse = await PrestadorModel.delete(id as string);
+        const deletePrestacaoServicoResponse = await PrestacaoModel.delete(id as string);
 
-        if (!deletePrestadorResponse) {
+        if (!deletePrestacaoServicoResponse) {
             return res.status(400).json({
                 status: "error",
-                message: "Erro ao apagar prestador",
+                message: "Erro ao apagar prestacao de servico",
                 data: null,
             });
         }
 
         return res.status(200).json({
             status: "success",
-            message: "Prestador apagado com sucesso",
-            data: deletePrestadorResponse,
+            message: "Prestacao de servico apagada com sucesso",
+            data: deletePrestacaoServicoResponse,
         });
     }
 };
