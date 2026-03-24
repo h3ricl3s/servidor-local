@@ -113,4 +113,12 @@ CREATE TABLE tabela_proposta (
     FOREIGN KEY (id_prestacao_servico)
     REFERENCES tabela_prestacao_servicos(id)
 );
+ALTER TABLE tabela_prestacao_servicos
+ADD CONSTRAINT fk_prestadores_prestacao_proposta_servico
+FOREIGN KEY (id_prestadores)
+REFERENCES tabela_prestadores(id),
+
+ADD CONSTRAINT fk_servicos_prestacao_servico
+FOREIGN KEY (id_servico)
+REFERENCES tabela_servicos(id);
 
