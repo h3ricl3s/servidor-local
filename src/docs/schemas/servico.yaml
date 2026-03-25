@@ -1,0 +1,55 @@
+#schema/servico.yamal
+#export interface ServicoDBType {
+     #id: string,
+    #nome: string,
+    #descricao: string,
+    #categoria: string,
+    #enabled: boolean,
+    #created_at: string,
+    #updated_at: string
+#}
+
+component:
+schema:
+#schema principal do serviço
+Servico:
+properties:
+  type: object
+  properties:
+    id:
+      type: string
+      description: "Identificador único do serviço"
+    nome:
+      type: string
+      description: "Nome do serviço"
+      desconto:
+      type: number
+      description: "Desconto aplicado ao serviço"
+      categoria:
+      type: string  
+      description: "Categoria do serviço"
+      enabled:
+      type: boolean 
+      description: "Indica se o serviço está habilitado"
+    created_at:
+      type: string
+      example: "2024-06-01T12:00:00Z"
+    updated_at:
+      type: string
+      example: "2024-06-01T12:00:00Z"
+
+
+      #schema generico de resposta de erro
+  ErrorResponse:
+    type: object
+    properties:
+    message:
+      type: string
+      example: "erro ao buscar serviços"
+      status:
+      type: boolean
+      example: false
+      data:
+      type: object
+      properties:
+      null
