@@ -4,10 +4,22 @@ import type { prestadorDBType } from "../utils/types.js";
 export const PrestadorModel = {
     async create(newPrestador: prestadorDBType) {
         try {
-            const query = `INSERT INTO tabela_prestadores VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            const query = `
+                INSERT INTO tabela_prestadores (
+                    id,
+                    nif,
+                    profissao,
+                    taxa_urgencia,
+                    minimo_desconto,
+                    percentagem_desconto,
+                    enabled,
+                    created_at,
+                    updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `;
 
             const values = [
-                newPrestador.id,
+                newPrestador.id ?? crypto.randomUUID(),
                 newPrestador.nif,
                 newPrestador.profissao,
                 newPrestador.taxa_urgencia,
@@ -18,8 +30,7 @@ export const PrestadorModel = {
                 new Date(),
             ];
 
-            const rows = await db.execute(query, values);
-
+            const [rows] = await db.execute(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -33,7 +44,7 @@ export const PrestadorModel = {
 
             const [rows] = await db.execute(query);
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : [];
+            return Array.isArray(rows) ? rows : [];
         } catch (error) {
             console.log(error);
             return null;
@@ -46,8 +57,7 @@ export const PrestadorModel = {
 
             const value = [id];
 
-            const rows = await db.execute(query, value);
-
+            const [rows] = await db.execute(query, value);
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
         } catch (error) {
             console.log(error);
@@ -81,8 +91,7 @@ export const PrestadorModel = {
                 id,
             ];
 
-            const rows = await db.execute(query, values);
-
+            const [rows] = await db.execute(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -96,9 +105,8 @@ export const PrestadorModel = {
 
             const value = [id];
 
-            const rows: any = await db.execute(query, value);
-
-            return rows[0]?.affectedRows === 0 ? null : rows;
+            const [rows]: any = await db.execute(query, value);
+            return rows?.affectedRows === 0 ? null : rows;
         } catch (error) {
             console.log(error);
             return null;

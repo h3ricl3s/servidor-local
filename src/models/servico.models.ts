@@ -5,10 +5,20 @@ import type { ServicoDBType } from "../utils/types.js";
 export const ServicoModel = {
     async create(newService: ServicoDBType) {
         try {
-            const query = `INSERT INTO tabela_servicos VALUES (?, ?, ?, ?, ?, ?, ?)`;
+            const query = `
+                INSERT INTO tabela_servicos (
+                    id,
+                    nome,
+                    descricao,
+                    categoria,
+                    enabled,
+                    created_at,
+                    updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
 
             const values = [
-                null,
+                newService.id ?? crypto.randomUUID(),
                 newService.nome,
                 newService.descricao,
                 newService.categoria,
@@ -17,9 +27,8 @@ export const ServicoModel = {
                 new Date(),
             ];
 
-            const rows = await db.execute(query, values);
-
-            return rows;
+            const [result] = await db.execute(query, values);
+            return result;
         } catch (error) {
             console.log(error);
             return null;
@@ -33,7 +42,7 @@ export const ServicoModel = {
 
             const [rows] = await db.execute(query);
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : [];
+            return Array.isArray(rows) ? rows : [];
         } catch (error) {
             console.log(error);
             return null;
@@ -47,8 +56,7 @@ export const ServicoModel = {
 
             const value = [id];
 
-            const rows = await db.execute(query, value);
-
+            const [rows] = await db.execute(query, value);
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
         } catch (error) {
             console.log(error);
@@ -64,7 +72,7 @@ export const ServicoModel = {
                             descricao=?,
                             categoria=?,
                             enabled=?,
-                            update_at=?
+                            updated_at=?
                         WHERE
                             id=?
                         ;`;
@@ -78,8 +86,7 @@ export const ServicoModel = {
                 id,
             ];
 
-            const rows = await db.execute(query, values);
-
+            const [rows] = await db.execute(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -93,9 +100,8 @@ export const ServicoModel = {
 
             const value = [id];
 
-            const rows: any = await db.execute(query, value);
-
-            return rows[0]?.affectedRows === 0 ? null : rows;
+            const [rows]: any = await db.execute(query, value);
+            return rows?.affectedRows === 0 ? null : rows;
         } catch (error) {
             console.log(error);
             return null;

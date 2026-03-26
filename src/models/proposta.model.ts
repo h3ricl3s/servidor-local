@@ -17,8 +17,7 @@ export const PropostaModel = {
                 new Date(),
             ];
 
-            const rows = await db.execute(query, values);
-
+            const [rows] = await db.execute(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -32,7 +31,7 @@ export const PropostaModel = {
 
             const [rows] = await db.execute(query);
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : [];
+            return Array.isArray(rows) ? rows : [];
         } catch (error) {
             console.log(error);
             return null;
@@ -45,8 +44,7 @@ export const PropostaModel = {
 
             const value = [id];
 
-            const rows = await db.execute(query, value);
-
+            const [rows] = await db.execute(query, value);
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
         } catch (error) {
             console.log(error);
@@ -78,8 +76,7 @@ export const PropostaModel = {
                 id,
             ];
 
-            const rows = await db.execute(query, values);
-
+            const [rows] = await db.execute(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -93,9 +90,8 @@ export const PropostaModel = {
 
             const value = [id];
 
-            const rows: any = await db.execute(query, value);
-
-            return rows[0]?.affectedRows === 0 ? null : rows;
+            const [rows]: any = await db.execute(query, value);
+            return rows?.affectedRows === 0 ? null : rows;
         } catch (error) {
             console.log(error);
             return null;

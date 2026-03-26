@@ -1,14 +1,13 @@
 import type { Request, Response } from "express";
 import type { UserType } from "../utils/types.js";
 import { usersModel } from "../models/users.models.js";
-import { generateUUID } from "../utils/uuid.js";
 
 export const userController = {
     async create(req: Request, res: Response) {
         const user: UserType = req.body;
 
         if (!user) {
-            res.status(400).json({
+            return res.status(400).json({
                 status: "error",
                 message: "Dados de utilizador invalidos",
                 data: null,
@@ -19,9 +18,9 @@ export const userController = {
 
         const createUserResponse = await usersModel.create(user);
 
-        res.status(201).json(
+        return res.status(201).json(
             {
-                status: "successo",
+                status: "success",
                 message: "Utilizador criado com sucesso",
                 data: createUserResponse
             });
@@ -31,7 +30,19 @@ export const userController = {
     async getAll(req: Request, res: Response) {
         const getUsersResponse = await usersModel.getAll();
 
-        res.json(getUsersResponse);
+        if (!getUsersResponse) {
+            return res.status(500).json({
+                status: "error",
+                message: "Erro ao buscar utilizadores",
+                data: null,
+            });
+        }
+
+        return res.status(200).json({
+            status: "success",
+            message: "Utilizadores buscados com sucesso",
+            data: getUsersResponse,
+        });
     },
 
     async get(req: Request, res: Response) {
@@ -56,7 +67,11 @@ export const userController = {
 
         }
 
-        res.json(getUserResponse);
+        return res.status(200).json({
+            status: "success",
+            message: "Utilizador encontrado com sucesso",
+            data: getUserResponse
+        });
     },
 
     async update(req: Request, res: Response) {
@@ -83,7 +98,7 @@ export const userController = {
             )
         }
 
-        const updateUserResponse = await usersModel.update(generateUUID(), updatedUser);
+        const updateUserResponse = await usersModel.update(id as string, updatedUser);
 
         if (!updateUserResponse) {
             return res.status(400).json(
@@ -120,14 +135,14 @@ export const userController = {
         if (!deleteUserResponse) {
             return res.status(400).json({
                 status: "error",
-                message: "Erro ao apagar servico",
+                message: "Erro ao apagar utilizador",
                 data: null,
             });
         }
 
         return res.status(200).json({
             status: "success",
-            message: "Servico apagado com sucesso",
+            message: "Utilizador apagado com sucesso",
             data: deleteUserResponse,
         });
     }

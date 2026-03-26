@@ -1,26 +1,26 @@
 export interface orcamentoDBType {
-    id: number,
+    id?: number,
     total: number,
     id_utilizador: string,
     id_prestador: string,
     enabled: boolean,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface propostaDBType {
-    id: number,
+    id?: number,
     id_prestacao_servico: number,
     preco_hora: number,
     horas_estimadas: number,
     estado: string,
     enabled: boolean,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface prestacaoServicoDBType {
-    id: number,
+    id?: number,
     designacao: string,
     subtotal: number,
     horas_estimadas: number,
@@ -30,8 +30,8 @@ export interface prestacaoServicoDBType {
     estado: string,
     id_orcamento: number,
     enabled: boolean,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface PedidoServicoType {
@@ -55,15 +55,15 @@ export interface ServicoType {
 }
 
 export interface prestadorDBType {
-    id: string,
+    id?: string,
     nif: number,
     profissao: string,
     taxa_urgencia: number,
     minimo_desconto: number,
     percentagem_desconto: number,
     enabled: boolean,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface PrestadorType {
@@ -90,7 +90,7 @@ export interface ResponseType {
 }
 
 export interface UserType {
-    id: string,
+    id?: string,
     nome: string,
     numero_identificacao: string,
     data_nascimento: string,
@@ -100,16 +100,16 @@ export interface UserType {
     localidade: string,
     password: string,
     enabled: boolean,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface ServicoDBType {
-    id: string,
+    id?: string,
     nome: string,
     descricao: string,
     categoria: string,
     enabled: boolean,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }

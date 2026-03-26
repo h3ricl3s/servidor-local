@@ -1,4 +1,3 @@
-import { get } from "node:http";
 import db from "../lib/db.js";
 import { formatDateDDMMYYYY} from "../utils/date.js";
 import { hashpassword } from "../utils/password.js";
@@ -9,10 +8,22 @@ export const usersModel = {
     async create(user: UserType) {
         try {
             const [rows] = await db.execute(
-                `INSERT INTO tabela_utilizadores 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT INTO tabela_utilizadores (
+                    id,
+                    nome,
+                    numero_identificacao,
+                    data_nascimento,
+                    email,
+                    telefone,
+                    pais,
+                    localidade,
+                    password,
+                    enabled,
+                    created_at,
+                    updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
-                    generateUUID(),
+                    user.id ?? generateUUID(),
                     user.nome,
                     user.numero_identificacao,
                     formatDateDDMMYYYY(user.data_nascimento),
@@ -35,9 +46,13 @@ export const usersModel = {
     },
 
     async getAll() {
-        const [rows] = await db.execute("SELECT * FROM tabela_utilizadores");
-
-        return rows;
+        try {
+            const [rows] = await db.execute("SELECT * FROM tabela_utilizadores");
+            return rows;
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
     },
 
     async get(id: string) {
@@ -92,8 +107,8 @@ export const usersModel = {
                 id
             ]
 
-            const rows = await db.execute(query, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            const [rows] = await db.execute(query, values)
+            return rows
         } catch (err) {
             console.log(err)
             return null
@@ -106,9 +121,8 @@ export const usersModel = {
 
             const value = [id];
 
-            const rows: any = await db.execute(query, value);
-
-            return rows[0]?.affectedRows === 0 ? null : rows;
+            const [rows]: any = await db.execute(query, value);
+            return rows?.affectedRows === 0 ? null : rows;
         } catch (error) {
             console.log(error);
             return null;
