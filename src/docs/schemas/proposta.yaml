@@ -1,0 +1,134 @@
+components:
+  schemas:
+    Proposta:
+      type: object
+      description: Representa uma proposta da tabela_proposta.
+      properties:
+        id:
+          type: integer
+          example: 1
+        id_prestacao_servico:
+          type: integer
+          example: 3
+        preco_hora:
+          type: number
+          format: float
+          example: 35
+        horas_estimadas:
+          type: number
+          format: float
+          example: 8
+        estado:
+          type: string
+          example: "pendente"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+      required:
+        - id
+        - id_prestacao_servico
+        - preco_hora
+        - horas_estimadas
+        - estado
+        - enabled
+
+    CreateProposta:
+      type: object
+      properties:
+        id_prestacao_servico:
+          type: integer
+          example: 3
+        preco_hora:
+          type: number
+          format: float
+          example: 35
+        horas_estimadas:
+          type: number
+          format: float
+          example: 8
+        estado:
+          type: string
+          example: "pendente"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - id_prestacao_servico
+        - preco_hora
+        - horas_estimadas
+        - estado
+        - enabled
+
+    UpdateProposta:
+      type: object
+      properties:
+        id_prestacao_servico:
+          type: integer
+          example: 3
+        preco_hora:
+          type: number
+          format: float
+          example: 40
+        horas_estimadas:
+          type: number
+          format: float
+          example: 10
+        estado:
+          type: string
+          example: "aceite"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - id_prestacao_servico
+        - preco_hora
+        - horas_estimadas
+        - estado
+        - enabled
+
+    ResponseSuccessProposta:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Proposta encontrada com sucesso"
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/Proposta"
+            - type: array
+              items:
+                $ref: "#/components/schemas/Proposta"
+            - type: object
+              additionalProperties: true
+      required:
+        - status
+        - message
+        - data
+
+    ResponseErrorProposta:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        message:
+          type: string
+          example: "Erro ao processar a requisicao"
+        data:
+          nullable: true
+          example: null
+      required:
+        - status
+        - message
+        - data

@@ -2,32 +2,33 @@ components:
   schemas:
     User:
       type: object
+      description: Representa um utilizador da tabela_utilizadores.
       properties:
         id:
           type: string
-          example: "usr1"
+          example: "550e8400-e29b-41d4-a716-446655440000"
           description: Identificador unico do utilizador.
         nome:
           type: string
-          example: "Maria Silva"
+          example: "Hericles Lopes"
           description: Nome completo do utilizador.
         numero_identificacao:
           type: string
-          example: "123456789AA1"
+          example: "123456789"
           description: Numero de identificacao do utilizador.
         data_nascimento:
           type: string
           format: date
-          example: "1998-05-21"
+          example: "2004-08-17"
           description: Data de nascimento do utilizador.
         email:
           type: string
           format: email
-          example: "maria.silva@email.com"
+          example: "hericles.lopes@example.com"
           description: Email do utilizador.
         telefone:
           type: string
-          example: "+2389912345"
+          example: "+3515959140"
           description: Telefone de contacto do utilizador.
         pais:
           type: string
@@ -37,10 +38,10 @@ components:
           type: string
           example: "Praia"
           description: Localidade do utilizador.
-        password:
+        "password":
           type: string
           format: password
-          example: "SenhaSegura123"
+          example: "password123"
           description: Password do utilizador.
         enabled:
           type: boolean
@@ -63,7 +64,7 @@ components:
         - telefone
         - pais
         - localidade
-        - password
+        - "password"
         - enabled
 
     CreateUser:
@@ -71,31 +72,31 @@ components:
       properties:
         nome:
           type: string
-          example: "Maria Silva"
+          example: "Hericles Lopes"
         numero_identificacao:
           type: string
-          example: "123456789AA1"
+          example: "123456789"
         data_nascimento:
           type: string
           format: date
-          example: "1998-05-21"
+          example: "2004-08-17"
         email:
           type: string
           format: email
-          example: "maria.silva@email.com"
+          example: "hericles.lopes@example.com"
         telefone:
           type: string
-          example: "+2389912345"
+          example: "+3515959140"
         pais:
           type: string
           example: "Cabo Verde"
         localidade:
           type: string
           example: "Praia"
-        password:
+        "password":
           type: string
           format: password
-          example: "SenhaSegura123"
+          example: "password123"
         enabled:
           type: boolean
           example: true
@@ -107,7 +108,7 @@ components:
         - telefone
         - pais
         - localidade
-        - password
+        - "password"
         - enabled
 
     UpdateUser:
@@ -115,31 +116,31 @@ components:
       properties:
         nome:
           type: string
-          example: "Maria Silva"
+          example: "Hericles Lopes"
         numero_identificacao:
           type: string
-          example: "123456789AA1"
+          example: "123456789"
         data_nascimento:
           type: string
           format: date
-          example: "1998-05-21"
+          example: "2004-08-17"
         email:
           type: string
           format: email
-          example: "maria.silva@email.com"
+          example: "hericles.lopes@example.com"
         telefone:
           type: string
-          example: "+2389912345"
+          example: "+3515959140"
         pais:
           type: string
           example: "Cabo Verde"
         localidade:
           type: string
           example: "Praia"
-        password:
+        "password":
           type: string
           format: password
-          example: "NovaSenha123"
+          example: "password123"
         enabled:
           type: boolean
           example: true
@@ -151,18 +152,19 @@ components:
         - telefone
         - pais
         - localidade
-        - password
+        - "password"
         - enabled
 
     ResponseSuccessUser:
       type: object
+      description: Resposta de sucesso usada nos endpoints de utilizadores.
       properties:
         status:
           type: string
           example: "success"
         message:
           type: string
-          example: "Operacao realizada com sucesso"
+          example: "Utilizador encontrado com sucesso"
         data:
           oneOf:
             - $ref: "#/components/schemas/User"
@@ -178,6 +180,7 @@ components:
 
     ResponseErrorUser:
       type: object
+      description: Resposta de erro usada nos endpoints de utilizadores.
       properties:
         status:
           type: string

@@ -11,13 +11,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
+                $ref: "#/components/schemas/ResponseSuccessServico"
         "500":
           description: Erro ao buscar servicos.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ResponseErrorServico"
 
   /services/create:
     post:
@@ -37,13 +37,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
+                $ref: "#/components/schemas/ResponseSuccessServico"
         "400":
           description: Dados invalidos para criar servico.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ResponseErrorServico"
 
   /services/get-by-id/{id}:
     get:
@@ -65,75 +65,78 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
+                $ref: "#/components/schemas/ResponseSuccessServico"
+        "400":
+          description: ID do servico invalido ou ausente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorServico"
         "404":
           description: Servico nao encontrado.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ResponseErrorServico"
 
   /services/update/{id}:
     put:
-      summary: Atualizar um  servico existente
-      description: Atualiza  informacoes de um servico existente pelo seu ID.
+      tags:
+        - Servicos
+      summary: Atualizar servico
+      description: Atualiza as informacoes de um servico existente pelo seu ID.
       parameters:
-        - name: id
-          in: path
+        - in: path
+          name: id
           required: true
           description: ID do servico a ser atualizado.
           schema:
             type: string
-            example: "1"
+            example: "serv1"
       requestBody:
         required: true
         content:
           application/json:
-          schema:
-            type: objecto 
-            $ref: "#/components/schemas/createServico"
+            schema:
+              $ref: "#/components/schemas/UpdateServico"
       responses:
         "200":
           description: Servico atualizado com sucesso.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
+                $ref: "#/components/schemas/ResponseSuccessServico"
         "400":
-          description: Dados invalidos.
+          description: Dados invalidos para atualizar servico.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
-        "404":
-          description: Servico nao encontrado. 
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ResponseErrorServico"
 
   /services/delete/{id}:
     delete:
-      summary: Deletar um servico
+      tags:
+        - Servicos
+      summary: Apagar servico
       description: Apaga um servico especificado pelo seu ID.
       parameters:
-        - name: id
-          in: path
+        - in: path
+          name: id
           required: true
           description: ID do servico a ser apagado.
           schema:
             type: string
-            example: "1"    
+            example: "serv1"
       responses:
         "200":
           description: Servico apagado com sucesso.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
-        "404":
-          description: Servico nao encontrado.
+                $ref: "#/components/schemas/ResponseSuccessServico"
+        "400":
+          description: Erro ao apagar servico.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ResponseErrorServico"

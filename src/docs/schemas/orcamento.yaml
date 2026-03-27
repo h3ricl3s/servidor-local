@@ -1,0 +1,119 @@
+components:
+  schemas:
+    Orcamento:
+      type: object
+      description: Representa um orcamento da tabela_orcamento.
+      properties:
+        id:
+          type: integer
+          example: 1
+        total:
+          type: number
+          format: float
+          example: 2500
+        id_utilizador:
+          type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        id_prestador:
+          type: string
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+      required:
+        - id
+        - total
+        - id_utilizador
+        - id_prestador
+        - enabled
+
+    CreateOrcamento:
+      type: object
+      properties:
+        total:
+          type: number
+          format: float
+          example: 2500
+        id_utilizador:
+          type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        id_prestador:
+          type: string
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - total
+        - id_utilizador
+        - id_prestador
+        - enabled
+
+    UpdateOrcamento:
+      type: object
+      properties:
+        total:
+          type: number
+          format: float
+          example: 3000
+        id_utilizador:
+          type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        id_prestador:
+          type: string
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - total
+        - id_utilizador
+        - id_prestador
+        - enabled
+
+    ResponseSuccessOrcamento:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Orcamento encontrado com sucesso"
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/Orcamento"
+            - type: array
+              items:
+                $ref: "#/components/schemas/Orcamento"
+            - type: object
+              additionalProperties: true
+      required:
+        - status
+        - message
+        - data
+
+    ResponseErrorOrcamento:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        message:
+          type: string
+          example: "Erro ao processar a requisicao"
+        data:
+          nullable: true
+          example: null
+      required:
+        - status
+        - message
+        - data

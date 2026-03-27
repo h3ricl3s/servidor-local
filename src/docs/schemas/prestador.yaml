@@ -1,0 +1,149 @@
+components:
+  schemas:
+    Prestador:
+      type: object
+      description: Representa um prestador da tabela_prestadores.
+      properties:
+        id:
+          type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        nif:
+          type: integer
+          example: 123456789
+        profissao:
+          type: string
+          example: "Canalizador"
+        taxa_urgencia:
+          type: number
+          format: float
+          example: 15
+        minimo_desconto:
+          type: number
+          format: float
+          example: 100
+        percentagem_desconto:
+          type: number
+          format: float
+          example: 10
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+      required:
+        - id
+        - nif
+        - profissao
+        - taxa_urgencia
+        - minimo_desconto
+        - percentagem_desconto
+        - enabled
+
+    CreatePrestador:
+      type: object
+      properties:
+        nif:
+          type: integer
+          example: 123456789
+        profissao:
+          type: string
+          example: "Canalizador"
+        taxa_urgencia:
+          type: number
+          format: float
+          example: 15
+        minimo_desconto:
+          type: number
+          format: float
+          example: 100
+        percentagem_desconto:
+          type: number
+          format: float
+          example: 10
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nif
+        - profissao
+        - taxa_urgencia
+        - minimo_desconto
+        - percentagem_desconto
+        - enabled
+
+    UpdatePrestador:
+      type: object
+      properties:
+        nif:
+          type: integer
+          example: 123456789
+        profissao:
+          type: string
+          example: "Canalizador"
+        taxa_urgencia:
+          type: number
+          format: float
+          example: 20
+        minimo_desconto:
+          type: number
+          format: float
+          example: 150
+        percentagem_desconto:
+          type: number
+          format: float
+          example: 12
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nif
+        - profissao
+        - taxa_urgencia
+        - minimo_desconto
+        - percentagem_desconto
+        - enabled
+
+    ResponseSuccessPrestador:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Prestador encontrado com sucesso"
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/Prestador"
+            - type: array
+              items:
+                $ref: "#/components/schemas/Prestador"
+            - type: object
+              additionalProperties: true
+      required:
+        - status
+        - message
+        - data
+
+    ResponseErrorPrestador:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        message:
+          type: string
+          example: "Erro ao processar a requisicao"
+        data:
+          nullable: true
+          example: null
+      required:
+        - status
+        - message
+        - data

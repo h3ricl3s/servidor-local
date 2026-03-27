@@ -1,0 +1,185 @@
+components:
+  schemas:
+    PrestacaoServico:
+      type: object
+      description: Representa uma prestacao de servico da tabela_prestacao_servicos.
+      properties:
+        id:
+          type: integer
+          example: 1
+        designacao:
+          type: string
+          example: "Instalacao de rede"
+        subtotal:
+          type: number
+          format: float
+          example: 280
+        horas_estimadas:
+          type: number
+          format: float
+          example: 8
+        id_prestador:
+          type: string
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        id_servico:
+          type: string
+          example: "770e8400-e29b-41d4-a716-446655440000"
+        preco_hora:
+          type: number
+          format: float
+          example: 35
+        estado:
+          type: string
+          example: "pendente"
+        id_orcamento:
+          type: integer
+          example: 5
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+      required:
+        - id
+        - designacao
+        - subtotal
+        - horas_estimadas
+        - id_prestador
+        - id_servico
+        - preco_hora
+        - estado
+        - id_orcamento
+        - enabled
+
+    CreatePrestacaoServico:
+      type: object
+      properties:
+        designacao:
+          type: string
+          example: "Instalacao de rede"
+        subtotal:
+          type: number
+          format: float
+          example: 280
+        horas_estimadas:
+          type: number
+          format: float
+          example: 8
+        id_prestador:
+          type: string
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        id_servico:
+          type: string
+          example: "770e8400-e29b-41d4-a716-446655440000"
+        preco_hora:
+          type: number
+          format: float
+          example: 35
+        estado:
+          type: string
+          example: "pendente"
+        id_orcamento:
+          type: integer
+          example: 5
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - designacao
+        - subtotal
+        - horas_estimadas
+        - id_prestador
+        - id_servico
+        - preco_hora
+        - estado
+        - id_orcamento
+        - enabled
+
+    UpdatePrestacaoServico:
+      type: object
+      properties:
+        designacao:
+          type: string
+          example: "Instalacao de rede empresarial"
+        subtotal:
+          type: number
+          format: float
+          example: 350
+        horas_estimadas:
+          type: number
+          format: float
+          example: 10
+        id_prestador:
+          type: string
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        id_servico:
+          type: string
+          example: "770e8400-e29b-41d4-a716-446655440000"
+        preco_hora:
+          type: number
+          format: float
+          example: 35
+        estado:
+          type: string
+          example: "em_andamento"
+        id_orcamento:
+          type: integer
+          example: 5
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - designacao
+        - subtotal
+        - horas_estimadas
+        - id_prestador
+        - id_servico
+        - preco_hora
+        - estado
+        - id_orcamento
+        - enabled
+
+    ResponseSuccessPrestacaoServico:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Prestacao de servico encontrada com sucesso"
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/PrestacaoServico"
+            - type: array
+              items:
+                $ref: "#/components/schemas/PrestacaoServico"
+            - type: object
+              additionalProperties: true
+      required:
+        - status
+        - message
+        - data
+
+    ResponseErrorPrestacaoServico:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        message:
+          type: string
+          example: "Erro ao processar a requisicao"
+        data:
+          nullable: true
+          example: null
+      required:
+        - status
+        - message
+        - data

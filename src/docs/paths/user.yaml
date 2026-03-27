@@ -1,0 +1,146 @@
+paths:
+  /users:
+    get:
+      tags:
+        - Utilizadores
+      summary: Listar utilizadores
+      description: Retorna todos os utilizadores cadastrados.
+      responses:
+        "200":
+          description: Lista de utilizadores retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessUser"
+        "500":
+          description: Erro ao buscar utilizadores.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+
+  /users/create:
+    post:
+      tags:
+        - Utilizadores
+      summary: Criar utilizador
+      description: Cria um novo utilizador.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUser"
+      responses:
+        "201":
+          description: Utilizador criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessUser"
+        "400":
+          description: Dados invalidos para criar utilizador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+        "500":
+          description: Erro interno ao criar utilizador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+
+  /users/get-by-id/{id}:
+    get:
+      tags:
+        - Utilizadores
+      summary: Buscar utilizador por ID
+      description: Retorna um utilizador especifico pelo seu identificador.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do utilizador.
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: Utilizador encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessUser"
+        "400":
+          description: ID do utilizador invalido ou ausente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+        "404":
+          description: Utilizador nao encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+  /users/update/{id}:
+    put:
+      tags:
+        - Utilizadores
+      summary: Atualizar utilizador
+      description: Atualiza as informacoes de um utilizador existente pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do utilizador a ser atualizado.
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUser"
+      responses:
+        "200":
+          description: Utilizador atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessUser"
+        "400":
+          description: Dados invalidos para atualizar utilizador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+  /users/delete/{id}:
+    delete:
+      tags:
+        - Utilizadores
+      summary: Apagar utilizador
+      description: Apaga um utilizador especificado pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do utilizador a ser apagado.
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: Utilizador apagado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessUser"
+        "400":
+          description: Erro ao apagar utilizador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"

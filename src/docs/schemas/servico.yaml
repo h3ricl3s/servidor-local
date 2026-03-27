@@ -102,7 +102,7 @@ components:
         - message
         - data
 
-    ResponseError:
+    ResponseErrorServico:
       type: object
       properties:
         status:

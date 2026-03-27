@@ -1,0 +1,142 @@
+paths:
+  /prestadores:
+    get:
+      tags:
+        - Prestadores
+      summary: Listar prestadores
+      description: Retorna todos os prestadores cadastrados.
+      responses:
+        "200":
+          description: Lista de prestadores retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessPrestador"
+        "500":
+          description: Erro ao buscar prestadores.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorPrestador"
+
+  /prestadores/create:
+    post:
+      tags:
+        - Prestadores
+      summary: Criar prestador
+      description: Cria um novo prestador.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePrestador"
+      responses:
+        "200":
+          description: Prestador criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessPrestador"
+        "400":
+          description: Dados invalidos para criar prestador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorPrestador"
+
+  /prestadores/get-by-id/{id}:
+    get:
+      tags:
+        - Prestadores
+      summary: Buscar prestador por ID
+      description: Retorna um prestador especifico pelo seu identificador.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do prestador.
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: Prestador encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessPrestador"
+        "400":
+          description: ID do prestador invalido ou ausente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorPrestador"
+        "404":
+          description: Prestador nao encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorPrestador"
+
+  /prestadores/update/{id}:
+    put:
+      tags:
+        - Prestadores
+      summary: Atualizar prestador
+      description: Atualiza as informacoes de um prestador existente pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do prestador a ser atualizado.
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePrestador"
+      responses:
+        "200":
+          description: Prestador atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessPrestador"
+        "400":
+          description: Dados invalidos para atualizar prestador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorPrestador"
+
+  /prestadores/delete/{id}:
+    delete:
+      tags:
+        - Prestadores
+      summary: Apagar prestador
+      description: Apaga um prestador especificado pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do prestador a ser apagado.
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: Prestador apagado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccessPrestador"
+        "400":
+          description: Erro ao apagar prestador.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorPrestador"
