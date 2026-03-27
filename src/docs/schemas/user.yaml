@@ -1,0 +1,194 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "usr1"
+          description: Identificador unico do utilizador.
+        nome:
+          type: string
+          example: "Maria Silva"
+          description: Nome completo do utilizador.
+        numero_identificacao:
+          type: string
+          example: "123456789AA1"
+          description: Numero de identificacao do utilizador.
+        data_nascimento:
+          type: string
+          format: date
+          example: "1998-05-21"
+          description: Data de nascimento do utilizador.
+        email:
+          type: string
+          format: email
+          example: "maria.silva@email.com"
+          description: Email do utilizador.
+        telefone:
+          type: string
+          example: "+2389912345"
+          description: Telefone de contacto do utilizador.
+        pais:
+          type: string
+          example: "Cabo Verde"
+          description: Pais do utilizador.
+        localidade:
+          type: string
+          example: "Praia"
+          description: Localidade do utilizador.
+        password:
+          type: string
+          format: password
+          example: "SenhaSegura123"
+          description: Password do utilizador.
+        enabled:
+          type: boolean
+          example: true
+          description: Indica se o utilizador esta ativo.
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-27T10:00:00.000Z"
+      required:
+        - id
+        - nome
+        - numero_identificacao
+        - data_nascimento
+        - email
+        - telefone
+        - pais
+        - localidade
+        - password
+        - enabled
+
+    CreateUser:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Maria Silva"
+        numero_identificacao:
+          type: string
+          example: "123456789AA1"
+        data_nascimento:
+          type: string
+          format: date
+          example: "1998-05-21"
+        email:
+          type: string
+          format: email
+          example: "maria.silva@email.com"
+        telefone:
+          type: string
+          example: "+2389912345"
+        pais:
+          type: string
+          example: "Cabo Verde"
+        localidade:
+          type: string
+          example: "Praia"
+        password:
+          type: string
+          format: password
+          example: "SenhaSegura123"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nome
+        - numero_identificacao
+        - data_nascimento
+        - email
+        - telefone
+        - pais
+        - localidade
+        - password
+        - enabled
+
+    UpdateUser:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Maria Silva"
+        numero_identificacao:
+          type: string
+          example: "123456789AA1"
+        data_nascimento:
+          type: string
+          format: date
+          example: "1998-05-21"
+        email:
+          type: string
+          format: email
+          example: "maria.silva@email.com"
+        telefone:
+          type: string
+          example: "+2389912345"
+        pais:
+          type: string
+          example: "Cabo Verde"
+        localidade:
+          type: string
+          example: "Praia"
+        password:
+          type: string
+          format: password
+          example: "NovaSenha123"
+        enabled:
+          type: boolean
+          example: true
+      required:
+        - nome
+        - numero_identificacao
+        - data_nascimento
+        - email
+        - telefone
+        - pais
+        - localidade
+        - password
+        - enabled
+
+    ResponseSuccessUser:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Operacao realizada com sucesso"
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/User"
+            - type: array
+              items:
+                $ref: "#/components/schemas/User"
+            - type: object
+              additionalProperties: true
+      required:
+        - status
+        - message
+        - data
+
+    ResponseErrorUser:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        message:
+          type: string
+          example: "Erro ao processar a requisicao"
+        data:
+          nullable: true
+          example: null
+      required:
+        - status
+        - message
+        - data
