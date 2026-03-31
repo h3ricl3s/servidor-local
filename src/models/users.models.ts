@@ -1,3 +1,4 @@
+import { error } from "node:console";
 import db from "../lib/db.js";
 import { formatDateDDMMYYYY} from "../utils/date.js";
 import { hashpassword } from "../utils/password.js";
@@ -73,6 +74,24 @@ export const usersModel = {
             return null;
         }
     },
+
+
+    async getByEmail(email: string): Promise<UserType | null> {
+        try {
+            const [rows] = await db.execute(
+                `SELECT * FROM tabela_utilizadores 
+        WHERE tabela_utilizadores.email = ?`,
+                [email]
+            );
+
+            if (Array.isArray(rows) && rows.length === 0) return null;
+            return Array.isArray(rows) ? rows[0] as UserType : null;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    },
+
 
 
     async update(id: string, updatedUser: UserType) {

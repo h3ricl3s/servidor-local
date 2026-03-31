@@ -144,3 +144,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseErrorUser"
+  /users/login:
+    post:
+      tags:
+        - Utilizadores
+      summary: Login de utilizador
+      description: Faz login de um usuário utilizando email e senha.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/LoginUser"
+      responses:
+        "200":
+          description: Login bem-sucedido.
+          content:
+            application/json:
+              schema:
+              type: object
+              $ref: "#/components/schemas/ResponseSuccessUser"
+        "404":
+          description: Usuario nao encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseErrorUser"
+

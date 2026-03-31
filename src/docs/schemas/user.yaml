@@ -83,7 +83,7 @@ components:
         email:
           type: string
           format: email
-          example: "hericles.lopes@example.com"
+          example: "user@example.com"
         telefone:
           type: string
           example: "+3515959140"
@@ -116,7 +116,7 @@ components:
       properties:
         nome:
           type: string
-          example: "Hericles Lopes"
+          example: "user@example.com"
         numero_identificacao:
           type: string
           example: "123456789"
@@ -127,7 +127,7 @@ components:
         email:
           type: string
           format: email
-          example: "hericles.lopes@example.com"
+          example: "user@example.com"
         telefone:
           type: string
           example: "+3515959140"
@@ -176,7 +176,18 @@ components:
       required:
         - status
         - message
-        - data
+        - data 
+
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "user@example.com"
+        password:
+          type: string
+          format: password
+          example: "password123"
 
     ResponseErrorUser:
       type: object
@@ -195,3 +206,6 @@ components:
         - status
         - message
         - data
+        
+
+

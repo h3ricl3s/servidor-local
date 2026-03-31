@@ -15,6 +15,21 @@ const options: swaggerJsdoc.Options = {
                 description: "dev",
             },
         ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                },
+            },
+        },
+        security: [
+            {
+                bearerAuth: [],
+            },
+        ],
+
     },
     apis: [
         path.join(process.cwd(), "src/docs/schemas/*.yaml"),
