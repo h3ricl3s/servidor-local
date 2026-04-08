@@ -1,5 +1,5 @@
 
-import { ServicoModel } from "../models/servico.models.js";
+import { ServicoModel } from "../models/prestacao.servico.models.js";
 import type { ServicoDBType } from "../utils/types.js";
 import type { Request, Response } from "express";
 

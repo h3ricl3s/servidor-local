@@ -1,3 +1,5 @@
+import e from "express"
+
 export interface orcamentoDBType {
     id?: number,
     total: number,
@@ -112,4 +114,16 @@ export interface ServicoDBType {
     enabled: boolean,
     created_at?: string,
     updated_at?: string
+}
+
+export enum EstadoProposta {
+    PENDENTE = "PENDENTE",
+    ACEITE = "ACEITE",
+    CANCELADO = "CANCELADO"
+}
+export enum EstadoPrestacaoServico {
+    PENDENTE = "PENDENTE",
+    FINALIZADO = "FINALIZADO",
+    EM_ANDAMENTO = "EM_ANDAMENTO",
+    CANCELADO = "CANCELADO"
 }

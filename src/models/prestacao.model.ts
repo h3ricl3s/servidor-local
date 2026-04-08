@@ -1,5 +1,7 @@
+import { get } from "node:http";
 import db from "../lib/db.js";
 import type { prestacaoServicoDBType } from "../utils/types.js";
+import type { RowDataPacket } from "mysql2";
 
 export const PrestacaoModel = {
     async create(newPrestacaoServico: prestacaoServicoDBType) {
@@ -108,5 +110,21 @@ export const PrestacaoModel = {
             console.log(error);
             return null;
         }
+    },
+
+    async getByIdOrcamento(idOrcamento: string): Promise<prestacaoServicoDBType | null> {
+    try {
+        const [rows] = await db.execute<prestacaoServicoDBType[] & RowDataPacket[]>(`SELECT * 
+            FROM tabela_prestacao_servicos WHERE id_orcamento = ?`,
+            
+            [idOrcamento]
+        )
+        if (Array.isArray(rows) && rows.length > 0) return null
+        return Array.isArray(rows) ? rows[0] as prestacaoServicoDBType : null
+        } catch (err) {
+            console.log(err)
+            return null
     }
-};
+}
+}
+

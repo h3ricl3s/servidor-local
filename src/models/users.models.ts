@@ -12,7 +12,7 @@ export const usersModel = {
                 `INSERT INTO tabela_utilizadores (
                     id,
                     nome,
-                    numero_identificacao,
+                    numero,
                     data_nascimento,
                     email,
                     telefone,
