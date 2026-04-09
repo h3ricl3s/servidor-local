@@ -80,6 +80,21 @@ export const orcamentoModel = {
         }
     },
 
+    async updateBudget(id: string, total: number) {
+        try {
+            const rows: any = await db.execute(`
+                UPDATE tabela_orcamento
+                SET total = ?, updated_at = ?
+                WHERE id = ?;
+            `, [total, new Date(), id])
+
+            return rows[0].affectedRows === 0 ? null : rows[0]
+        }catch (err) {
+            console.log(err);
+            return null;
+    }
+    },
+
     async delete(id: string) {
         try {
             const query = `DELETE FROM tabela_orcamento WHERE id = ?`;

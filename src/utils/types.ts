@@ -11,7 +11,8 @@ export interface orcamentoDBType {
 }
 
 export interface propostaDBType {
-    id?: number,
+    id: number,
+    id_prestador: string,
     id_prestacao_servico: number,
     preco_hora: number,
     horas_estimadas: number,
@@ -22,15 +23,17 @@ export interface propostaDBType {
 }
 
 export interface prestacaoServicoDBType {
-    id?: number,
+    id: number,
     designacao: string,
     subtotal: number,
     horas_estimadas: number,
     id_prestador: string,
     id_servico: string,
     preco_hora: number,
-    estado: string,
+    estado: EstadoPrestacaoServico,
     id_orcamento: number,
+    id_utilizador: string,
+    urgente: boolean,
     enabled: boolean,
     created_at?: string,
     updated_at?: string
@@ -57,7 +60,7 @@ export interface ServicoType {
 }
 
 export interface prestadorDBType {
-    id?: string,
+    id: string,
     nif: number,
     profissao: string,
     taxa_urgencia: number,
@@ -85,12 +88,6 @@ export interface PrestadorType {
     updated_at: string
 }
 
-export interface ResponseType {
-    status: boolean,
-    message: string,
-    data: PrestadorType | ServicoType | null
-}
-
 export interface UserType {
     id?: string,
     nome: string,
@@ -116,6 +113,8 @@ export interface ServicoDBType {
     updated_at?: string
 }
 
+
+
 export enum EstadoProposta {
     PENDENTE = "PENDENTE",
     ACEITE = "ACEITE",
@@ -127,3 +126,20 @@ export enum EstadoPrestacaoServico {
     EM_ANDAMENTO = "EM_ANDAMENTO",
     CANCELADO = "CANCELADO"
 }
+
+export interface PrestacaoServicoDetalhadoType {
+    id: string,
+    nome_utilizador: string,
+    email_utilizador: string,
+    nome_servico: string,
+    descricao: string,
+    data_pedido: string,
+    urgente: boolean,
+}
+
+export interface ResponseType<T>{
+    status:"sucess" | "error",
+    message: string,
+    data: T | null
+}
+
