@@ -1,14 +1,15 @@
 import { error } from "node:console";
 import db from "../lib/db.js";
-import { formatDateDDMMYYYY} from "../utils/date.js";
+import { formatDateDDMMYYYY } from "../utils/date.js";
 import { hashpassword } from "../utils/password.js";
-import type { UserType } from "../utils/types.js";
+import type { prestadorDBType, UserType } from "../utils/types.js";
 import { generateUUID } from "../utils/uuid.js";
+import type { RowDataPacket } from "mysql2";
 
 export const usersModel = {
-    async create(user: UserType) {
+    async create(user: UserType): Promise<UserType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UserType & RowDataPacket[]>(
                 `INSERT INTO tabela_utilizadores (
                     id,
                     nome,
@@ -46,9 +47,9 @@ export const usersModel = {
         }
     },
 
-    async getAll() {
+    async getAll(): Promise<UserType[] | null> {
         try {
-            const [rows] = await db.execute("SELECT * FROM tabela_utilizadores");
+            const [rows] = await db.execute<prestadorDBType & RowDataPacket[]>("SELECT * FROM tabela_utilizadores");
             return rows;
         } catch (err) {
             console.log(err);
@@ -56,7 +57,7 @@ export const usersModel = {
         }
     },
 
-    async get(id: string) {
+    async get(id: string): Promise<UserType | null> {
         console.log("getUserById", id);
 
         try {
@@ -94,7 +95,7 @@ export const usersModel = {
 
 
 
-    async update(id: string, updatedUser: UserType) {
+    async update(id: string, updatedUser: UserType): Promise<UserType | null> {
         try {
             const query = `
         UPDATE tabela_utilizadores
@@ -126,15 +127,15 @@ export const usersModel = {
                 id
             ]
 
-            const [rows] = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<prestadorDBType & RowDataPacket[]>(query, values)
+            return rows[0] as UserType
         } catch (err) {
             console.log(err)
             return null
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string): Promise<UserType | null> {
         try {
             const query = `DELETE FROM tabela_utilizadores WHERE id = ?`;
 

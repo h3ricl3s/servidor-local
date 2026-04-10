@@ -5,7 +5,7 @@ import { type PrestacaoServicoDetalhadoType, type prestacaoServicoDBType, type S
 import { ca } from "date-fns/locale";
 
 export const PrestacaoServicoModel = {
-    async create(newService: ServicoDBType) {
+    async create(newService: ServicoDBType): Promise<ServicoDBType | null> {
         try {
             const query = `
                 INSERT INTO tabela_servicos (
@@ -29,7 +29,7 @@ export const PrestacaoServicoModel = {
                 new Date(),
             ];
 
-            const [result] = await db.execute(query, values);
+            const [result] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values);
             return result;
         } catch (error) {
             console.log(error);
@@ -38,11 +38,11 @@ export const PrestacaoServicoModel = {
     },
 
 
-    async getAll() {
+    async getAll(): Promise<ServicoDBType[] | null> {
         try {
             const query = `SELECT * FROM tabela_servicos`;
 
-            const [rows] = await db.execute(query);
+            const [rows] = await db.execute<ServicoDBType[] & RowDataPacket[]>(query);
 
             return Array.isArray(rows) ? rows : [];
         } catch (error) {
@@ -52,39 +52,39 @@ export const PrestacaoServicoModel = {
     },
 
 
-    async get(id: string) {
+    async get(id: string): Promise<ServicoDBType | null> {
         try {
             const query = `SELECT * FROM tabela_servicos WHERE id = ?`;
 
             const value = [id];
 
-            const [rows] = await db.execute(query, value);
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, value);
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as ServicoDBType : null;
         } catch (error) {
             console.log(error);
             return null;
         }
     },
 
-    async getByIdOrcamento(idOrcamento: string): Promise<prestacaoServicoDBType | null>{
+    async getByIdOrcamento(idOrcamento: string): Promise<prestacaoServicoDBType | null> {
         try {
             const [rows] = await db.execute<prestacaoServicoDBType[] & RowDataPacket[]>(`
                 SELECT * FROM tbl_prestacao_servico
                 WHERE tbl_prestacao_servico.id_orcamento = ?
                 `, [idOrcamento])
 
-                if(Array.isArray(rows) && rows.length === 0) return null
+            if (Array.isArray(rows) && rows.length === 0) return null
 
-                return Array.isArray(rows) ? rows[0] as prestacaoServicoDBType: null
+            return Array.isArray(rows) ? rows[0] as prestacaoServicoDBType : null
 
-        }catch(error){
+        } catch (error) {
             console.log(error);
             return null
-            
+
         }
     },
 
-    async update(id: string, updatedService: ServicoDBType) {
+    async update(id: string, updatedService: ServicoDBType): Promise<ServicoDBType | null> {
         try {
             const query = `UPDATE tabela_servicos 
                         SET 
@@ -106,7 +106,7 @@ export const PrestacaoServicoModel = {
                 id,
             ];
 
-            const [rows] = await db.execute(query, values);
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -114,13 +114,13 @@ export const PrestacaoServicoModel = {
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string): Promise<ServicoDBType | null> {
         try {
             const query = `DELETE FROM tabela_servicos WHERE id = ?`;
 
             const value = [id];
 
-            const [rows]: any = await db.execute(query, value);
+            const [rows]: any = await db.execute<ServicoDBType & RowDataPacket[]>(query, value);
             return rows?.affectedRows === 0 ? null : rows;
         } catch (error) {
             console.log(error);
@@ -128,9 +128,9 @@ export const PrestacaoServicoModel = {
         }
     },
 
-    async getAllPrestacaoServicoDetalhada(limits: number, offset: number) {
+    async getAllPrestacaoServicoDetalhada(limits: number, offset: number): Promise<PrestacaoServicoDetalhadoType[] | null> {
         try {
-            const query =`
+            const query = `
                 SELECT
                     ps.id as id_prestacao_servico,
                     ps.designacao as descricao,
@@ -154,10 +154,10 @@ export const PrestacaoServicoModel = {
                 ]
             );
 
-            if(Array.isArray(rows) && rows.length === 0)return null
-            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhadoType [] : null
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows as PrestacaoServicoDetalhadoType[] : null
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
             return null
         }

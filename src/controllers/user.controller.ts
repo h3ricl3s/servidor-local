@@ -18,67 +18,74 @@ export const userController = {
             });
         }
 
-        const createUserResponse = await usersModel.create(user);
+        const createUserResponse: UserType | null = await usersModel.create(user);
 
         if (!createUserResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao criar utilizador",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        return res.status(201).json({
+        const response: ResponseType<UserType> = {
             status: "success",
             message: "Utilizador criado com sucesso",
             data: createUserResponse,
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async getAll(_req: Request, res: Response) {
-        const getUsersResponse = await usersModel.getAll();
+        const getUsersResponse: UserType[] | null = await usersModel.getAll();
 
         if (!getUsersResponse) {
-            return res.status(500).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao buscar utilizadores",
                 data: null,
-            });
+            };
+            return res.status(500).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<UserType[]> = {
             status: "success",
             message: "Utilizadores buscados com sucesso",
             data: getUsersResponse,
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async get(req: Request, res: Response) {
         const { id } = req.params;
 
         if (!id || Array.isArray(id)) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID do utilizador e obrigatorio",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const getUserResponse = await usersModel.get(id);
+        const getUserResponse: UserType | null = await usersModel.get(id);
 
         if (!getUserResponse) {
-            return res.status(404).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Utilizador nao encontrado",
                 data: null,
-            });
+            };
+            return res.status(404).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<UserType> = {
             status: "success",
             message: "Utilizador encontrado com sucesso",
             data: getUserResponse,
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async update(req: Request, res: Response) {
@@ -86,111 +93,122 @@ export const userController = {
         const updatedUser: UserType = req.body;
 
         if (!id || Array.isArray(id)) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID e obrigatorio",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
         if (!updatedUser) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Dados de utilizador invalidos",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const updateUserResponse = await usersModel.update(id, updatedUser);
+        const updateUserResponse: UserType | null = await usersModel.update(id, updatedUser);
 
         if (!updateUserResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao atualizar utilizador",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<UserType> = {
             status: "success",
             message: "Utilizador atualizado com sucesso",
             data: updateUserResponse,
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async login(req: Request, res: Response) {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Credenciais invalidas",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
-        
-        const userData = await usersModel.getByEmail(email as string)
-        
+
+        const userData: UserType | null = await usersModel.getByEmail(email as string)
+
         if (!userData) {
-            return res.status(404).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "nao existe utilizador com esse email",
                 data: null,
-            });
+            };
+            return res.status(404).json(response);
         }
-        const isPasswordValid = await comparePassword(password, userData.password)
+        const isPasswordValid: boolean = await comparePassword(password, userData.password)
 
         if (!isPasswordValid) {
-            return res.status(401).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Credenciais invalidas",
                 data: null,
-            });
-        }  
+            };
+            return res.status(401).json(response);
+        }
         const payload = {
             id: userData.id,
             email: userData.email,
             nome: userData.nome
         }
-        
-        const token  = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
-        return res.status(200).json({
+        const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+
+        const response: ResponseType<{ token: string }> = {
             status: "success",
-            message: "Login bem sucedido",  
+            message: "Login bem sucedido",
             data: {
-                token   
+                token
             },
-        });             
+        };
+        return res.status(200).json(response);
     },
 
 
-    
+
     async delete(req: Request, res: Response) {
         const { id } = req.params;
 
         if (!id || Array.isArray(id)) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const deleteUserResponse = await usersModel.delete(id);
+        const deleteUserResponse: UserType | null = await usersModel.delete(id);
 
         if (!deleteUserResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao apagar utilizador",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<UserType> = {
             status: "success",
             message: "Utilizador apagado com sucesso",
             data: deleteUserResponse,
-        });
+        };
+        return res.status(200).json(response);
     },
 };

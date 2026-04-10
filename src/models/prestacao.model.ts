@@ -4,7 +4,7 @@ import type { prestacaoServicoDBType } from "../utils/types.js";
 import type { RowDataPacket } from "mysql2";
 
 export const PrestacaoModel = {
-    async create(newPrestacaoServico: prestacaoServicoDBType) {
+    async create(newPrestacaoServico: prestacaoServicoDBType): Promise<prestacaoServicoDBType | null> {
         try {
             const query = `INSERT INTO tabela_prestacao_servicos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
@@ -23,7 +23,7 @@ export const PrestacaoModel = {
                 new Date(),
             ];
 
-            const [rows] = await db.execute(query, values);
+            const [rows] = await db.execute<prestacaoServicoDBType & RowDataPacket[]>(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -31,34 +31,34 @@ export const PrestacaoModel = {
         }
     },
 
-    async getAll() {
+    async getAll(): Promise<prestacaoServicoDBType[] | null> {
         try {
             const query = `SELECT * FROM tabela_prestacao_servicos`;
 
-            const [rows] = await db.execute(query);
+            const [rows] = await db.execute<prestacaoServicoDBType[] & RowDataPacket[]>(query);
 
-            return Array.isArray(rows) ? rows : [];
+            return Array.isArray(rows) ? rows as prestacaoServicoDBType[] : [];
         } catch (error) {
             console.log(error);
             return null;
         }
     },
 
-    async get(id: string) {
+    async get(id: string): Promise<prestacaoServicoDBType | null> {
         try {
             const query = `SELECT * FROM tabela_prestacao_servicos WHERE id = ?`;
 
             const value = [id];
 
-            const [rows] = await db.execute(query, value);
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+            const [rows] = await db.execute<prestacaoServicoDBType & RowDataPacket[]>(query, value);
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as prestacaoServicoDBType : null;
         } catch (error) {
             console.log(error);
             return null;
         }
     },
 
-    async update(id: string, updatedPrestacaoServico: prestacaoServicoDBType) {
+    async update(id: string, updatedPrestacaoServico: prestacaoServicoDBType): Promise<prestacaoServicoDBType | null> {
         try {
             const query = `UPDATE tabela_prestacao_servicos 
                         SET 
@@ -90,7 +90,7 @@ export const PrestacaoModel = {
                 id,
             ];
 
-            const [rows] = await db.execute(query, values);
+            const [rows] = await db.execute<prestacaoServicoDBType & RowDataPacket[]>(query, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -98,13 +98,13 @@ export const PrestacaoModel = {
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string): Promise<prestacaoServicoDBType | null> {
         try {
             const query = `DELETE FROM tabela_prestacao_servicos WHERE id = ?`;
 
             const value = [id];
 
-            const [rows]: any = await db.execute(query, value);
+            const [rows]: any = await db.execute<prestacaoServicoDBType & RowDataPacket[]>(query, value);
             return rows?.affectedRows === 0 ? null : rows;
         } catch (error) {
             console.log(error);
@@ -113,18 +113,18 @@ export const PrestacaoModel = {
     },
 
     async getByIdOrcamento(idOrcamento: string): Promise<prestacaoServicoDBType | null> {
-    try {
-        const [rows] = await db.execute<prestacaoServicoDBType[] & RowDataPacket[]>(`SELECT * 
+        try {
+            const [rows] = await db.execute<prestacaoServicoDBType[] & RowDataPacket[]>(`SELECT * 
             FROM tabela_prestacao_servicos WHERE id_orcamento = ?`,
-            
-            [idOrcamento]
-        )
-        if (Array.isArray(rows) && rows.length > 0) return null
-        return Array.isArray(rows) ? rows[0] as prestacaoServicoDBType : null
+
+                [idOrcamento]
+            )
+            if (Array.isArray(rows) && rows.length > 0) return null
+            return Array.isArray(rows) ? rows[0] as prestacaoServicoDBType : null
         } catch (err) {
             console.log(err)
             return null
+        }
     }
-}
 }
 

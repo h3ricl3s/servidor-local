@@ -7,74 +7,82 @@ export const PropostaController = {
         const newProposta: propostaDBType = req.body;
 
         if (!newProposta) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Dados de proposta invalidos",
                 data: null
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const createPropostaResponse = await PropostaModel.create(newProposta);
+        const createPropostaResponse: propostaDBType | null = await PropostaModel.create(newProposta);
 
         if (createPropostaResponse === null) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao criar proposta",
                 data: null
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<propostaDBType> = {
             status: "success",
             message: "Proposta criada com sucesso",
             data: createPropostaResponse
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllPropostaResponse = await PropostaModel.getAll();
+        const getAllPropostaResponse: propostaDBType[] | null = await PropostaModel.getAll();
 
         if (!getAllPropostaResponse) {
-            return res.status(500).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao buscar propostas",
                 data: null
-            });
+            };
+            return res.status(500).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<propostaDBType[]> = {
             status: "success",
             message: "Propostas buscadas com sucesso",
             data: getAllPropostaResponse
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async get(req: Request, res: Response) {
         const { id } = req.params;
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID de proposta nao fornecido",
                 data: null
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const getPropostaResponse = await PropostaModel.get(id as string);
+        const getPropostaResponse: propostaDBType | null = await PropostaModel.get(id as string);
 
         if (!getPropostaResponse) {
-            return res.status(404).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Proposta nao encontrada",
                 data: null
-            });
+            };
+            return res.status(404).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<propostaDBType> = {
             status: "success",
             message: "Proposta encontrada com sucesso",
             data: getPropostaResponse
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async update(req: Request, res: Response) {
@@ -82,63 +90,70 @@ export const PropostaController = {
         const updatedProposta: propostaDBType = req.body;
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
         if (!updatedProposta) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Dados de proposta invalidos",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const updatePropostaResponse = await PropostaModel.update(id as string, updatedProposta);
+        const updatePropostaResponse: propostaDBType | null = await PropostaModel.update(id as string, updatedProposta);
 
         if (!updatePropostaResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao atualizar proposta",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<propostaDBType> = {
             status: "success",
             message: "Proposta atualizada com sucesso",
             data: updatePropostaResponse,
-        });
+        };
+        return res.status(200).json(response);
     },
 
     async delete(req: Request, res: Response) {
         const { id } = req.params;
 
         if (!id) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "ID obrigatorio",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        const deletePropostaResponse = await PropostaModel.delete(id as string);
+        const deletePropostaResponse: propostaDBType | null = await PropostaModel.delete(id as string);
 
         if (!deletePropostaResponse) {
-            return res.status(400).json({
+            const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao apagar proposta",
                 data: null,
-            });
+            };
+            return res.status(400).json(response);
         }
 
-        return res.status(200).json({
+        const response: ResponseType<propostaDBType> = {
             status: "success",
             message: "Proposta apagada com sucesso",
             data: deletePropostaResponse,
-        });
+        };
+        return res.status(200).json(response);
     }
 };
