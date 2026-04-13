@@ -49,7 +49,7 @@ export const usersModel = {
 
     async getAll(): Promise<UserType[] | null> {
         try {
-            const [rows] = await db.execute<prestadorDBType & RowDataPacket[]>("SELECT * FROM tabela_utilizadores");
+            const [rows] = await db.execute<UserType[] & RowDataPacket[]>("SELECT * FROM tabela_utilizadores");
             return rows;
         } catch (err) {
             console.log(err);
@@ -69,7 +69,7 @@ export const usersModel = {
             );
 
             if (Array.isArray(rows) && rows.length === 0) return null;
-            return Array.isArray(rows) ? rows[0] : null;
+            return Array.isArray(rows) ? rows[0] as UserType : null;
         } catch (err) {
             console.log(err);
             return null;

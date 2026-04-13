@@ -30,7 +30,7 @@ export const PropostaModel = {
         try {
             const query = `SELECT * FROM tabela_proposta`;
 
-            const [rows] = await db.execute<propostaDBType & RowDataPacket[]>(query);
+            const [rows] = await db.execute<propostaDBType[] & RowDataPacket[]>(query);
 
             return Array.isArray(rows) ? rows as propostaDBType[] : null
         } catch (error) {
@@ -91,7 +91,7 @@ export const PropostaModel = {
 
             const value = [id];
 
-            const [rows] = await db.execute<propostaDBType[] & RowDataPacket[]>(query, value);
+            const [rows]: any = await db.execute<propostaDBType[] & RowDataPacket[]>(query, value);
             return rows?.affectedRows === 0 ? null : rows[0] as propostaDBType
         } catch (error) {
             console.log(error);

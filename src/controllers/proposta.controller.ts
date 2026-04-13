@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { PropostaModel } from "../models/proposta.model.js";
-import type { propostaDBType } from "../utils/types.js";
+import type { propostaDBType, ResponseType } from "../utils/types.js";
 
 export const PropostaController = {
     async create(req: Request, res: Response) {
@@ -27,7 +27,7 @@ export const PropostaController = {
         }
 
         const response: ResponseType<propostaDBType> = {
-            status: "success",
+            status: "sucess",
             message: "Proposta criada com sucesso",
             data: createPropostaResponse
         };
@@ -47,7 +47,7 @@ export const PropostaController = {
         }
 
         const response: ResponseType<propostaDBType[]> = {
-            status: "success",
+            status: "sucess",
             message: "Propostas buscadas com sucesso",
             data: getAllPropostaResponse
         };
@@ -78,7 +78,7 @@ export const PropostaController = {
         }
 
         const response: ResponseType<propostaDBType> = {
-            status: "success",
+            status: "sucess",
             message: "Proposta encontrada com sucesso",
             data: getPropostaResponse
         };
@@ -119,7 +119,7 @@ export const PropostaController = {
         }
 
         const response: ResponseType<propostaDBType> = {
-            status: "success",
+            status: "sucess",
             message: "Proposta atualizada com sucesso",
             data: updatePropostaResponse,
         };
@@ -150,7 +150,7 @@ export const PropostaController = {
         }
 
         const response: ResponseType<propostaDBType> = {
-            status: "success",
+            status: "sucess",
             message: "Proposta apagada com sucesso",
             data: deletePropostaResponse,
         };

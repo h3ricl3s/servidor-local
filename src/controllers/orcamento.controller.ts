@@ -4,8 +4,8 @@ import { EstadoProposta, type orcamentoDBType, type PrestadorType, type proposta
 import { PrestacaoServicoController } from "./prestacao.servico.controller.js";
 import { PropostaModel } from "../models/proposta.model.js";
 import { PrestadorModel } from "../models/prestador.model.js";
-import { PrestacaoServicoModel } from "../models/prestacao.servico.models.js";
-import { PrestacaoModel } from "../models/prestacao.model.js";
+import { PrestacaoServicoModel } from "../models/servico.models.js";
+import { PrestacaoModel } from "../models/prestacao.servico.model.js";
 import { id } from "date-fns/locale";
 
 export const OrcamentoController = {

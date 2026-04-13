@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { PrestacaoModel } from "../models/prestacao.model.js";
+import { PrestacaoModel } from "../models/prestacao.servico.model.js";
 import type { prestacaoServicoDBType, PrestacaoServicoDetalhadoType, ResponseType } from "../utils/types.js";
-import { PrestacaoServicoModel } from "../models/prestacao.servico.models.js";
+
 
 export const PrestacaoServicoController = {
     async create(req: Request, res: Response) {
@@ -167,7 +167,7 @@ export const PrestacaoServicoController = {
         if (limit && parseInt(limit) > 0) LIMIT = parseInt(limit)
         if (offset && parseInt(offset) > 0) OFFSET = parseInt(offset)
 
-        const getAllPrestacaoServicosResponse: PrestacaoServicoDetalhadoType[] | null = await PrestacaoServicoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
+        const getAllPrestacaoServicosResponse: PrestacaoServicoDetalhadoType[] | null = await PrestacaoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
 
         if (!getAllPrestacaoServicosResponse) {
             const response: ResponseType<null> = {

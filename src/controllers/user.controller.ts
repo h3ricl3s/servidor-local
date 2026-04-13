@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { usersModel } from "../models/users.models.js";
-import type { UserType } from "../utils/types.js";
+import type { ResponseType, UserType } from "../utils/types.js";
 import db from "../lib/db.js";
 import { comparePassword } from "../utils/password.js";
 import jwt from "jsonwebtoken";
@@ -30,7 +30,7 @@ export const userController = {
         }
 
         const response: ResponseType<UserType> = {
-            status: "success",
+            status: "sucess",
             message: "Utilizador criado com sucesso",
             data: createUserResponse,
         };
@@ -50,7 +50,7 @@ export const userController = {
         }
 
         const response: ResponseType<UserType[]> = {
-            status: "success",
+            status: "sucess",
             message: "Utilizadores buscados com sucesso",
             data: getUsersResponse,
         };
@@ -81,7 +81,7 @@ export const userController = {
         }
 
         const response: ResponseType<UserType> = {
-            status: "success",
+            status: "sucess",
             message: "Utilizador encontrado com sucesso",
             data: getUserResponse,
         };
@@ -122,7 +122,7 @@ export const userController = {
         }
 
         const response: ResponseType<UserType> = {
-            status: "success",
+            status: "sucess",
             message: "Utilizador atualizado com sucesso",
             data: updateUserResponse,
         };
@@ -170,7 +170,7 @@ export const userController = {
         const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
         const response: ResponseType<{ token: string }> = {
-            status: "success",
+            status: "sucess",
             message: "Login bem sucedido",
             data: {
                 token
@@ -205,7 +205,7 @@ export const userController = {
         }
 
         const response: ResponseType<UserType> = {
-            status: "success",
+            status: "sucess",
             message: "Utilizador apagado com sucesso",
             data: deleteUserResponse,
         };
