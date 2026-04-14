@@ -85,3 +85,59 @@ CREATE TABLE IF NOT EXISTS tabela_proposta (
     CONSTRAINT fk_proposta_prestacao
         FOREIGN KEY (id_prestacao_servico) REFERENCES tabela_prestacao_servicos(id)
 );
+
+CREATE TABLE IF NOT EXISTS`tabela_empresa`(
+	id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE,
+    designacao VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    localizacao VARCHAR(255) NOT NULL,
+    nif DOUBLE NOT NULL UNIQUE,
+    icone VARCHAR(255),
+    id_utilizador VARCHAR(255) NOT NULL,
+    enabled BOOLEAN NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+    );
+    
+    CREATE TABLE tabela_categoria (
+    id  INTEGER NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    designacao VARCHAR(255) NOT NULL,
+    icom  VARCHAR (255),
+    crteated_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+    );
+    
+    ALTER TABLE tabela_empresa
+    ADD CONSTRAINT fk_utilizador_empresa
+    FOREIGN KEY (id_utilizador)
+    REFERENCES tabela_utilizadores(id)
+    ;
+    
+    
+    ALTER TABLE tabela_servicos
+       DROP COLUMN categoria,
+       ADD COLUMN id_categoria INTEGER AFTER desconto,
+       ADD CONSTRAINT fk_categoria_servico
+       FOREIGN KEY  (id_categoria)
+       REFERENCES tabela_categoria(id)
+       ;
+       
+       
+	ALTER TABLE tabela_prestacao_servicos
+       ADD COLUMN urgente BOOLEAN AFTER id_orcamento
+       ;
+       
+       
+	ALTER TABLE tabela_proposta
+    ADD CONSTRAINT fk_prestacao_servico_proposta
+    FOREIGN KEY (id_prestacao_servico)
+    
+    ;
+    
+    ALTER TABLE tabela_prestadores
+    ADD COLUMN id_empresa INTEGER,
+    ADD CONSTRAINT fk_empresa_prestadores
+    FOREIGN KEY (id_empresa)
+    REFERENCES tabela_empresa(id)
+    ;
+

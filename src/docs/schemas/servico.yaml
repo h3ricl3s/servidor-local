@@ -37,7 +37,7 @@ components:
         - descricao
         - categoria
         - enabled
-
+    #schema para criar servico
     CreateServico:
       type: object
       properties:
@@ -58,7 +58,7 @@ components:
         - descricao
         - categoria
         - enabled
-
+    #schema para atualizar servico
     UpdateServico:
       type: object
       properties:
@@ -79,7 +79,38 @@ components:
         - descricao
         - categoria
         - enabled
-
+    #schema para listar servicos detalhados
+    ServicoDetalhado:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          nome: 
+          type: string
+          example: "Servico de Limpeza"
+          descricao: 
+          type: string
+          example: "Servico de limpeza profissional para residencias e empresas"
+          designacao_categoria: 
+          type: string
+          example: "Limpeza"
+          icone_categoria: 
+          type: string
+          example: ""
+          id_empresa: 
+          type: integer
+          example: 1
+          designacao_empresa: 
+          type: string
+          example: "Empresa de limpeza"
+          icone_empresa: 
+          type: string
+          example: ""
+          enabled: 
+          type: boolean
+          example: true
+    #schema para resposta de sucesso
     ResponseSuccessServico:
       type: object
       properties:
@@ -101,7 +132,7 @@ components:
         - status
         - message
         - data
-
+    #schema para resposta de erro
     ResponseErrorServico:
       type: object
       properties:
@@ -118,3 +149,4 @@ components:
         - status
         - message
         - data
+

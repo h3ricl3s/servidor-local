@@ -164,8 +164,14 @@ export const userController = {
         const payload = {
             id: userData.id,
             email: userData.email,
-            nome: userData.nome
+            nome: userData.nome,
+            role: userData.role
         }
+        /*TODO: Adicionar role ao utilizador na bd (alter table)e no user type
+        alter table  users
+        add column role ENUM('client','prestador')
+        
+        */
 
         const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 

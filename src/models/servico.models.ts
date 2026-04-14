@@ -1,7 +1,7 @@
 import type { RowDataPacket } from "mysql2";
 import db from "../lib/db.js";
-import { updateService } from "../servico.js";
-import { type PrestacaoServicoDetalhadoType, type prestacaoServicoDBType, type ServicoDBType } from "../utils/types.js";
+import { getAllServices, updateService } from "../servico.js";
+import { type PrestacaoServicoDetalhadoType, type prestacaoServicoDBType, type ServicoDBType, type ServicoDetalhadoType } from "../utils/types.js";
 import { ca } from "date-fns/locale";
 
 export const ServicoModel = {
@@ -127,6 +127,37 @@ export const ServicoModel = {
             return null;
         }
     },
+    async getAllServiceDetalhado(limit: number, offset: number): Promise<ServicoDetalhadoType[] | null> {
+        try {
+            const query = `
+        SELECT DISTINCT
+            s.id as id_servico
+            s.nome as nome_servico
+            s.descricao as descricao_servico
+            c.designacao as designacao_categoria
+            c.icone as icone_categoria
+            e.id as id_empresa
+            e.designacao as designacao_empresa
+            e.icone as icone_empresa
+            s.enabled
+        FROM tabela_servicos s
+        INNER JOIN tabela_categoria c ON c.id = s.id_categoria
+        INNER JOIN tabela_prestacao_servico ps ON ps.id_servico = s.id
+        INNER JOIN tabela_empresa e ON e.id = ps.id_empresa
+        WHERE s.enabled = true
+        LIMIT ? OFFSET ?
+        `
 
+            const values = [limit, offset]
+
+            const [rows] = await db.execute<ServicoDetalhadoType[] & RowDataPacket[]>(query, values)
+
+            return Array.isArray(rows) && rows.length > 0 ? rows as ServicoDetalhadoType[] : null
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+
+    }
 
 }
