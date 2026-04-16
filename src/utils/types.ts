@@ -206,3 +206,22 @@ export interface PrestadorDetalhadoType {
     created_at: string,
     updated_at: string
 }
+
+
+export interface PrestacaoServicoByCategoriaType {
+    id_prestacao_servico: string,
+    nome_servico: string,
+    nome_categoria: string,
+    icone_categoria: string,
+    data_pedido: string,
+    urgente: boolean,
+}
+
+export interface PrestacaoServicoModelType {
+    id: string,
+    nome_servico: string,
+    nome_categoria: string,
+    icone_categoria: string,
+    data_pedido: string,
+    urgente: boolean,
+}

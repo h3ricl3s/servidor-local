@@ -5,7 +5,8 @@ import type { propostaDBType } from "../utils/types.js";
 export const PropostaModel = {
     async create(newProposta: propostaDBType): Promise<propostaDBType | null> {
         try {
-            const query = `INSERT INTO tabela_proposta VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+            const query = `INSERT INTO tabela_proposta VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?)`;
 
             const values = [
                 null,
@@ -41,12 +42,21 @@ export const PropostaModel = {
 
     async get(id: string): Promise<propostaDBType | null> {
         try {
-            const query = `SELECT * FROM tabela_proposta WHERE id = ?`;
 
-            const value = [id];
+            const [rows] = await db.execute<propostaDBType[] & RowDataPacket[]>(
+                `SELECT DISTINCT
+                    pt.*
+                    pr.id as owner
+                 FROM tabela_proposta pt
+                 INNER JOIN tabela_prestadores pr ON pt.id_prestacao = pr.id
+                 INNER JOIN tabela_utilizadores u ON pr.id_utilizador = u.id
+                 WHERE pt.id = ?
+                 `,
+                [id]
+            )
 
-            const [rows] = await db.execute<propostaDBType & RowDataPacket[]>(query, value);
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] as propostaDBType : null
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows[0]! : null
         } catch (error) {
             console.log(error);
             return null;

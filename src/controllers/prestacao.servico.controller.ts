@@ -167,9 +167,9 @@ export const PrestacaoServicoController = {
         if (limit && parseInt(limit) > 0) LIMIT = parseInt(limit)
         if (offset && parseInt(offset) > 0) OFFSET = parseInt(offset)
 
-        const getAllPrestacaoServicosResponse: PrestacaoServicoDetalhadoType[] | null = await PrestacaoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
+        const getAllPrestacaoServicoDetalhadaResponse: PrestacaoServicoDetalhadoType[] | null = await PrestacaoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
 
-        if (!getAllPrestacaoServicosResponse) {
+        if (!getAllPrestacaoServicoDetalhadaResponse) {
             const response: ResponseType<null> = {
                 status: "error",
                 message: "Erro ao buscar prestacoes de servico",
@@ -181,7 +181,7 @@ export const PrestacaoServicoController = {
         const response: ResponseType<PrestacaoServicoDetalhadoType[]> = {
             status: "sucess",
             message: "Prestacao de servico buscadas com sucesso",
-            data: getAllPrestacaoServicosResponse
+            data: getAllPrestacaoServicoDetalhadaResponse
         };
         return res.status(200).json(response);
     }

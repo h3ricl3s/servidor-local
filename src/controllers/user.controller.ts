@@ -57,7 +57,7 @@ export const userController = {
         return res.status(200).json(response);
     },
 
-    async get(req: Request, res: Response) {
+    async getById(req: Request, res: Response) {
         const { id } = req.params;
 
         if (!id || Array.isArray(id)) {

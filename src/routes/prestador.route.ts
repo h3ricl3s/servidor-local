@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { PrestadorController } from "../controllers/prestador.controller.js";
+import AuthMiddleware, { authorize } from "../security/auth.middlerware.js";
+import { Role } from "../utils/types.js";
 
 const PrestadorRoute = {
     create: "/create",
@@ -11,10 +13,14 @@ const PrestadorRoute = {
 
 const router = Router()
 
-router.get(PrestadorRoute.getAll, PrestadorController.getAll)
-router.get(PrestadorRoute.getById, PrestadorController.get)
-router.post(PrestadorRoute.create, PrestadorController.create)
-router.put(PrestadorRoute.update, PrestadorController.update)
-router.delete(PrestadorRoute.delete, PrestadorController.delete)
+router.get(PrestadorRoute.getAll, authorize([Role.ADMIN, Role.CLIENTE, Role.EMPRESA]), PrestadorController.getAll)
+router.get(PrestadorRoute.getById, authorize([Role.ADMIN, Role.CLIENTE, Role.EMPRESA]), PrestadorController.get)
+
+
+router.use(AuthMiddleware)
+
+router.post(PrestadorRoute.create, authorize([Role.ADMIN, Role.CLIENTE, Role.EMPRESA]), PrestadorController.create)
+router.put(PrestadorRoute.update, authorize([Role.ADMIN, Role.CLIENTE, Role.EMPRESA]), PrestadorController.update)
+router.delete(PrestadorRoute.delete, authorize([Role.ADMIN, Role.CLIENTE, Role.EMPRESA]), PrestadorController.delete)
 
 export { router };

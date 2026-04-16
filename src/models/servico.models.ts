@@ -142,8 +142,8 @@ export const ServicoModel = {
             s.enabled
         FROM tabela_servicos s
         INNER JOIN tabela_categoria c ON c.id = s.id_categoria
-        INNER JOIN tabela_prestacao_servico ps ON ps.id_servico = s.id
-        INNER JOIN tabela_empresa e ON e.id = ps.id_empresa
+        INNER JOIN tabela_prestacao_servico ps ON s.id = ps.id_servico
+        INNER JOIN tabela_empresa e ON ps.id_empresa = e.id
         WHERE s.enabled = true
         LIMIT ? OFFSET ?
         `
@@ -158,6 +158,7 @@ export const ServicoModel = {
             return null
         }
 
-    }
+    },
+
 
 }

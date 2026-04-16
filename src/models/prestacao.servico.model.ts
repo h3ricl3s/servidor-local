@@ -1,6 +1,6 @@
 import { get } from "node:http";
 import db from "../lib/db.js";
-import type { prestacaoServicoDBType, PrestacaoServicoDetalhadoType } from "../utils/types.js";
+import type { PrestacaoServicoByCategoriaType, prestacaoServicoDBType, PrestacaoServicoDetalhadoType, ServicoDetalhadoType } from "../utils/types.js";
 import type { RowDataPacket } from "mysql2";
 
 export const PrestacaoModel = {
@@ -159,6 +159,42 @@ export const PrestacaoModel = {
             console.log(err);
             return null
         }
-    }
+    },
+    async getAllPrestacaoServicoByCategoriaDetalhado(limit: number, offset: number, idcategoria: string): Promise<PrestacaoServicoByCategoriaType[] | null> {
+        try {
+            const query = `
+            SELECT DISTINCT
+               ps.id as id_prestacao_servico,
+               ps.designacao as nome_servico,
+               s.nome as nome_servico,
+               c.designacao as designacao_categoria,
+               c.icone as icone_categoria,
+               e.designacao as designacao_empresa,
+               s.enabled
+
+               FROM tbl_prestacao_servicos ps
+               INNER JOIN tbl_categorias c ON c.id = s.id_categoria AND c.id = ?
+               INNER JOIN tbl_servico s ON ps.id_servico = s.id
+               ORDER BY ps.created_at DESC
+               LIMIT ? OFFSET ?
+            `
+            const value =
+                [
+                    limit.toString(),
+                    offset.toString()
+                ]
+            const [rows] = await db.execute<(PrestacaoServicoByCategoriaType & RowDataPacket)[]>(query, value)
+            console.log("rows", rows)
+            console.log("value", value)
+            console.log("limit", limit, offset)
+            if (Array.isArray(rows) && rows.length === 0) return []
+            return Array.isArray(rows) ? rows as PrestacaoServicoByCategoriaType[] : []
+        } catch (err) {
+            console.log(err)
+            return null
+        }
+
+    },
+
 }
 
