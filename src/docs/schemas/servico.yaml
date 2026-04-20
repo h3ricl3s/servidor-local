@@ -86,28 +86,28 @@ components:
         id:
           type: integer
           example: 1
-          nome: 
+        nome:
           type: string
           example: "Servico de Limpeza"
-          descricao: 
+        descricao:
           type: string
           example: "Servico de limpeza profissional para residencias e empresas"
-          designacao_categoria: 
+        designacao_categoria:
           type: string
           example: "Limpeza"
-          icone_categoria: 
+        icone_categoria:
           type: string
           example: ""
-          id_empresa: 
+        id_empresa:
           type: integer
           example: 1
-          designacao_empresa: 
+        designacao_empresa:
           type: string
           example: "Empresa de limpeza"
-          icone_empresa: 
+        icone_empresa:
           type: string
           example: ""
-          enabled: 
+        enabled:
           type: boolean
           example: true
     #schema para resposta de sucesso
@@ -149,4 +149,3 @@ components:
         - status
         - message
         - data
-

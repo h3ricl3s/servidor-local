@@ -106,6 +106,12 @@ CREATE TABLE IF NOT EXISTS`tabela_empresa`(
     crteated_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL
     );
+    ALTER TABLE tabela_prestadores
+    ADD COLUMN id_utilizador VARCHAR(255) NOT NULL DEFAULT"63a3303c-b1cc-42c9-aa1d-88606de0fa20",
+    ADD CONSTRAINT fk_utilizador_prestadores
+    FOREIGN KEY (id_utilizador)
+    REFERENCES tabela_utilizadores(id)
+    ;
     
     ALTER TABLE tabela_empresa
     ADD CONSTRAINT fk_utilizador_empresa
@@ -140,4 +146,8 @@ CREATE TABLE IF NOT EXISTS`tabela_empresa`(
     FOREIGN KEY (id_empresa)
     REFERENCES tabela_empresa(id)
     ;
+    
+     ALTER TABLE tabela_utilizadores
+     ADD COLUMN `role` ENUM("cliente", "admin","prestador","empresa") default"cliente"
+     ;
 

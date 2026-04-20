@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
 import { orcamentoModel } from "../models/orcamento.model.js";
 import { EstadoProposta, type orcamentoDBType, type propostaDBType, type ResponseType } from "../utils/types.js";
-import { PrestacaoServicoController } from "./prestacao.servico.controller.js";
+
 import { PropostaModel } from "../models/proposta.model.js";
 import { PrestadorModel } from "../models/prestador.model.js";
-import { PrestacaoServicoModel } from "../models/prestacao.servico.model.js";
+import { PrestacaoModel } from "../models/prestacao.servico.model.js";
 import { id } from "date-fns/locale";
 
 export const OrcamentoController = {
@@ -186,7 +186,7 @@ async function calcularBudget(req: Request, res: Response) {
     //trhen calculate the budget
 
     //to fetch proposal  we need to fetch prestacao _servico first
-    const prestacaoServico = await PrestacaoServicoModel.getByIdOrcamento(id as string)
+    const prestacaoServico = await PrestacaoModel.getByIdOrcamento(id as string)
 
     if (!prestacaoServico) {
         const response: ResponseType<null> = {
