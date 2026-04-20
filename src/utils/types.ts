@@ -37,10 +37,11 @@ export interface orcamentoDBType {
 export interface propostaDBType {
     id: number,
     id_prestador: string,
-    id_prestacao_servico: number,
+    id_prestacao_servico: string,
     preco_hora: number,
     horas_estimadas: number,
     estado: string,
+    owner?: string,
     enabled: boolean,
     created_at?: string,
     updated_at?: string
@@ -177,7 +178,7 @@ export interface CategoriaType {
     updated_at: string
 }
 
-export interface EmpresaType {
+export interface empresaDBType {
     id: string,
     designacao: string,
     descricao: string,
@@ -217,11 +218,4 @@ export interface PrestacaoServicoByCategoriaType {
     urgente: boolean,
 }
 
-export interface PrestacaoServicoModelType {
-    id: string,
-    nome_servico: string,
-    nome_categoria: string,
-    icone_categoria: string,
-    data_pedido: string,
-    urgente: boolean,
-}
+

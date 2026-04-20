@@ -18,7 +18,7 @@ const router = Router()
 
 
 router.get(PropostaRoute.getAll, authorize([Role.ADMIN]), PropostaController.getAll)
-router.get(PropostaRoute.getById, authorize([Role.ADMIN, Role.PRESTADOR, Role.EMPRESA]), PropostaController.get)
+router.get(PropostaRoute.getById, authorize([Role.ADMIN, Role.PRESTADOR, Role.EMPRESA]), isOwner(PropostaModel, "owner"), PropostaController.get)
 
 
 
