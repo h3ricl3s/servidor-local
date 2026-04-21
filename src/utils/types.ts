@@ -218,4 +218,3 @@ export interface PrestacaoServicoByCategoriaType {
     urgente: boolean,
 }
 
-
