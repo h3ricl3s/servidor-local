@@ -1,4 +1,6 @@
 
+import { empresaModel } from "../../models/empresa.model.js";
+import { PrestadorModel } from "../../models/prestador.model.js";
 import { usersModel } from "../../models/users.models.js";
 import type { UserType } from "../../utils/types.js";
 
@@ -20,6 +22,14 @@ export const userResolver = {
         },
         deleteUser: async (_: any, args: { id: string }) => {
             return await usersModel.delete(args.id);
+        }
+    },
+    User: {
+        prestador: async (parent: UserType) => {
+            return await PrestadorModel.get(parent.id!);
+        },
+        empresa: async (parent: UserType) => {
+            return await empresaModel.get(parent.id!);
         }
     }
 }

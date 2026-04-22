@@ -173,7 +173,11 @@ export interface ServicoDetalhadoType {
 export interface CategoriaType {
     id: string,
     designacao: string,
+    descricao: string,
     icone: string,
+    id_utilizador: string,
+    localidade: string,
+    enabled: boolean,
     created_at: string,
     updated_at: string
 }
@@ -218,3 +222,15 @@ export interface PrestacaoServicoByCategoriaType {
     urgente: boolean,
 }
 
+export interface PropostaType {
+    id: string,
+    id_prestador: string,
+    id_prestacao_servico: string,
+    preco_hora: number,
+    horas_estimadas: number,
+    estado: string,
+    owner: string,
+    enabled: boolean,
+    created_at: string,
+    updated_at: string
+}

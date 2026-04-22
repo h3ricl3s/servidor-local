@@ -3,7 +3,7 @@ import db from "../lib/db.js";
 import type { PrestacaoServicoByCategoriaType, prestacaoServicoDBType, PrestacaoServicoDetalhadoType, ServicoDetalhadoType } from "../utils/types.js";
 import type { RowDataPacket } from "mysql2";
 
-export const PrestacaoModel = {
+export const PrestacaoServicoModel = {
     async create(newPrestacaoServico: prestacaoServicoDBType): Promise<prestacaoServicoDBType | null> {
         try {
             const query = `INSERT INTO tabela_prestacao_servicos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
