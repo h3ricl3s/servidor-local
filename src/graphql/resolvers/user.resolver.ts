@@ -24,12 +24,13 @@ export const userResolver = {
             return await usersModel.delete(args.id);
         }
     },
+    // relacionamento 
     User: {
-        prestador: async (parent: UserType) => {
-            return await PrestadorModel.get(parent.id!);
-        },
         empresa: async (parent: UserType) => {
             return await empresaModel.get(parent.id!);
+        },
+        prestador: async (parent: UserType) => {
+            return await PrestadorModel.get(parent.id!);
         }
     }
 }

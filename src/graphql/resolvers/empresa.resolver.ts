@@ -1,5 +1,4 @@
 import { empresaModel } from "../../models/empresa.model.js"
-import { PrestadorModel } from "../../models/prestador.model.js";
 import type { empresaDBType } from "../../utils/types.js";
 
 export const empresaResolver = {
@@ -22,6 +21,7 @@ export const empresaResolver = {
             return await empresaModel.delete(args.id)
         }
     },
+    // relacionamento 
     Empresa: {
         prestador: async (parent: empresaDBType) => {
             return await empresaModel.get(parent.id as any);

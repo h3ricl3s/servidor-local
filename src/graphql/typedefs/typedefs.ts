@@ -123,14 +123,220 @@ type Query {
     getUsersById(id: ID!): Utilizador
     getAllServices: [Servico]
     getServicoById(id: ID!): Servico
+    getAllCategorias: [Categoria]
+    getCategoriaById(id: ID!): Categoria
+    getAllEmpresa: [Empresa]
+    getEmpresaById(id: ID!): Empresa
+    getAllPrestador: [Prestador]
+    getPrestadorById(id: ID!): Prestador
+    getAllOrcamento: [Orcamento]
+    getOrcamentoById(id: ID!): Orcamento
+    getAllPrestacaoServico: [PrestacaoServico]
+    getPrestacaoServicoById(id: ID!): PrestacaoServico
+    getAllProposta: [Proposta]
+    getPropostaById(id: ID!): Proposta
 
 }
  type Mutation {
-    createUtilizador(nome: String!, numero_identificacao: String!, data_nascimento: String!, email: String!, telefone: String!, pais: String!, localidade: String, password: String, role: Role, enabled: Boolean): Utilizador
-    updateUtilizador(id: ID!, nome: String!, numero_identificacao: String!, data_nascimento: String!, email: String!, telefone: String!, pais: String!, localidade: String, password: String, role: Role, enabled: Boolean): Utilizador
+    createUtilizador(
+    nome: String!,
+    numero_identificacao: String!,
+    data_nascimento: String!,
+    email: String!,
+    telefone: String!,
+    pais: String!,
+    localidade: String,
+    password: String,
+    role: Role,
+    enabled: Boolean
+    ): Utilizador
+    
+    updateUtilizador(
+        id: ID!,
+        nome: String!,
+        numero_identificacao: String!,
+        data_nascimento: String!,
+        email: String!,
+        telefone: String!,
+        pais: String!,
+        localidade: String,
+        password: String,
+        role: Role,
+        enabled: Boolean
+        ):
+        
+        Utilizador
     deleteUtilizador(id: ID!): Utilizador
-    createServico(nome: String!, descricao: String!, categoria: String!, enabled: Boolean): Servico
-    updateServico(id: ID!, nome: String!, descricao: String!, categoria: String!, enabled: Boolean): Servico
+    createServico(
+        nome: String!, 
+        descricao: String!, 
+        categoria: String!, 
+        enabled: Boolean
+        ):
+        
+        Servico
+    updateServico(
+        id: ID!, 
+        nome: String!, 
+        descricao: String!, 
+        categoria: String!, 
+        enabled: Boolean
+        ):
+        
+        Servico
     deleteServico(id: ID!): Servico
+    createCategoria(
+        nome: String!, 
+        descricao: String!, 
+        enabled: Boolean
+        ):
+        
+        Categoria
+    updateCategoria(
+        id: ID!, 
+        nome: String!, 
+        descricao: String!, 
+        enabled: Boolean
+        ):
+        
+        Categoria
+    deleteCategoria(id: ID!): Categoria
+    createEmpresa(
+        designacao: String!, 
+        descricao: String!, 
+        nif: String!, 
+        icone: String!, 
+        id_utilizador: String!, 
+        localidade: String!, 
+        enabled: Boolean
+        ):
+        
+        Empresa
+    updateEmpresa(
+        id: ID!, 
+        designacao: String!, 
+        descricao: String!, 
+        nif: String!, 
+        icone: String!, 
+        id_utilizador: String!, 
+        localidade: String!, 
+        enabled: Boolean
+        ):
+        
+        Empresa
+    deleteEmpresa(id: ID!): Empresa
+    createPrestador(
+        id_prestador: string, 
+        id_prestacao_servico: string, 
+        preco_hora: Float, 
+        horas_estimadas: Int, 
+        estado: string, 
+        owner: string, 
+        enabled: Boolean
+        ):
+
+        Prestador
+    updatePrestador(
+        id: ID!, 
+        id_prestador: string, 
+        id_prestacao_servico: string, 
+        preco_hora: Float, 
+        horas_estimadas: Int, 
+        estado: string, 
+        owner: string, 
+        enabled: Boolean
+        ):
+
+        Prestador
+    deletePrestador(id: ID!): Prestador
+    createOrcamento(
+        total: Float!, 
+        id_utilizador: ID!, 
+        id_prestador: ID!, 
+        enabled: Boolean
+        ): Orcamento
+    updateOrcamento(
+        id: ID!, 
+        total: Float!, 
+        id_utilizador: ID!, 
+        id_prestador: ID!, 
+        enabled: Boolean
+        ):
+        
+        Orcamento
+    deleteOrcamento(id: ID!): Orcamento
+    createPrestacaoServico(
+        designacao: String!, 
+        subtotal: Float!, 
+        horas_estimadas: Int!, 
+        id_prestador: ID!, 
+        id_servico: ID!, 
+        preco_hora: Float!, 
+        estado: String!, 
+        id_orcamento: ID!, 
+        id_utilizador: ID!, 
+        id_empresa: ID!, 
+        tipo_prestador: String!, 
+        urgente: Boolean!, 
+        enabled: Boolean!
+        ):
+         
+        PrestacaoServico
+    updatePrestacaoServico(
+        id: ID!, 
+        designacao: String!, 
+        subtotal: Float!, 
+        horas_estimadas: Int!, 
+        id_prestador: ID!, 
+        id_servico: ID!, 
+        preco_hora: Float!, 
+        estado: String!, 
+        id_orcamento: ID!, 
+        id_utilizador: ID!, 
+        id_empresa: ID!, 
+        tipo_prestador: String!, 
+        urgente: Boolean!, 
+        enabled: Boolean!
+        ):
+
+        PrestacaoServico
+    deletePrestacaoServico(id: ID!): PrestacaoServico
+    createProposta(
+        id_prestador: ID!, 
+        id_prestacao_servico: ID!, 
+        preco_hora: Float!, 
+        horas_estimadas: Int!, 
+        estado: String!, 
+        owner: String!, 
+        enabled: Boolean!
+        ): Proposta
+
+    updateProposta(
+        id: ID!, 
+        id_prestador: ID!, 
+        id_prestacao_servico: ID!, 
+        preco_hora: Float!, 
+        horas_estimadas: Int!, 
+        estado: String!, 
+        owner: String!, 
+        enabled: Boolean!
+        ): Proposta
+    deleteProposta(id: ID!): Proposta
+    }
+
 }
-}`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+`

@@ -4,8 +4,7 @@ import { EstadoProposta, type orcamentoDBType, type propostaDBType, type Respons
 
 import { PropostaModel } from "../models/proposta.model.js";
 import { PrestadorModel } from "../models/prestador.model.js";
-import { PrestacaoModel } from "../models/prestacao.servico.model.js";
-import { id } from "date-fns/locale";
+import { PrestacaoServicoModel } from "../models/prestacao.servico.model.js";
 
 export const OrcamentoController = {
     async create(req: Request, res: Response) {
@@ -186,7 +185,7 @@ async function calcularBudget(req: Request, res: Response) {
     //trhen calculate the budget
 
     //to fetch proposal  we need to fetch prestacao _servico first
-    const prestacaoServico = await PrestacaoModel.getByIdOrcamento(id as string)
+    const prestacaoServico = await PrestacaoServicoModel.getByIdOrcamento(id as string)
 
     if (!prestacaoServico) {
         const response: ResponseType<null> = {

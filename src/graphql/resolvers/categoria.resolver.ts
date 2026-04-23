@@ -1,4 +1,5 @@
 import { categoriaModel } from "../../models/categoria.model.js"
+import { PrestacaoServicoModel } from "../../models/prestacao.servico.model.js";
 import type { CategoriaType } from "../../utils/types.js";
 
 export const categoriaResolver = {
@@ -22,11 +23,8 @@ export const categoriaResolver = {
         }
     },
     Categoria: {
-        prestador: async (parent: CategoriaType) => {
-            return await categoriaModel.get(parent.id as any);
-        },
-        empresa: async (parent: CategoriaType) => {
-            return await categoriaModel.get(parent.id as any);
+        servicos: async (parent: CategoriaType) => {
+            return await PrestacaoServicoModel.get(parent.id as string);
         }
     }
 }

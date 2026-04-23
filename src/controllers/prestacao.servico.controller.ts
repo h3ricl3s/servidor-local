@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { PrestacaoModel } from "../models/prestacao.servico.model.js";
+import { PrestacaoServicoModel } from "../models/prestacao.servico.model.js";
 import type { prestacaoServicoDBType, PrestacaoServicoDetalhadoType, ResponseType } from "../utils/types.js";
 
 
@@ -16,7 +16,7 @@ export const PrestacaoServicoController = {
             return res.status(400).json(response);
         }
 
-        const createPrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoModel.create(newPrestacaoServico);
+        const createPrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoServicoModel.create(newPrestacaoServico);
 
         if (createPrestacaoServicoResponse === null) {
             const response: ResponseType<null> = {
@@ -36,7 +36,7 @@ export const PrestacaoServicoController = {
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllPrestacaoServicoResponse: prestacaoServicoDBType[] | null = await PrestacaoModel.getAll();
+        const getAllPrestacaoServicoResponse: prestacaoServicoDBType[] | null = await PrestacaoServicoModel.getAll();
 
         if (!getAllPrestacaoServicoResponse) {
             const response: ResponseType<null> = {
@@ -67,7 +67,7 @@ export const PrestacaoServicoController = {
             return res.status(400).json(response);
         }
 
-        const getPrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoModel.get(id as string);
+        const getPrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoServicoModel.get(id as string);
 
         if (!getPrestacaoServicoResponse) {
             const response: ResponseType<null> = {
@@ -108,7 +108,7 @@ export const PrestacaoServicoController = {
             return res.status(400).json(response);
         }
 
-        const updatePrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoModel.update(id as string, updatedPrestacaoServico);
+        const updatePrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoServicoModel.update(id as string, updatedPrestacaoServico);
 
         if (!updatePrestacaoServicoResponse) {
             const response: ResponseType<null> = {
@@ -139,7 +139,7 @@ export const PrestacaoServicoController = {
             return res.status(400).json(response);
         }
 
-        const deletePrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoModel.delete(id as string);
+        const deletePrestacaoServicoResponse: prestacaoServicoDBType | null = await PrestacaoServicoModel.delete(id as string);
 
         if (!deletePrestacaoServicoResponse) {
             const response: ResponseType<null> = {
@@ -167,7 +167,7 @@ export const PrestacaoServicoController = {
         if (limit && parseInt(limit) > 0) LIMIT = parseInt(limit)
         if (offset && parseInt(offset) > 0) OFFSET = parseInt(offset)
 
-        const getAllPrestacaoServicoDetalhadaResponse: PrestacaoServicoDetalhadoType[] | null = await PrestacaoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
+        const getAllPrestacaoServicoDetalhadaResponse: PrestacaoServicoDetalhadoType[] | null = await PrestacaoServicoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
 
         if (!getAllPrestacaoServicoDetalhadaResponse) {
             const response: ResponseType<null> = {

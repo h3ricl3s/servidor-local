@@ -1,3 +1,4 @@
+import { empresaModel } from "../../models/empresa.model.js";
 import { orcamentoModel } from "../../models/orcamento.model.js";
 import { PrestadorModel } from "../../models/prestador.model.js";
 import type { orcamentoDBType } from "../../utils/types.js";
@@ -27,7 +28,7 @@ export const orcamentoResolver = {
             return await PrestadorModel.get(parent.id as any);
         },
         empresa: async (parent: orcamentoDBType) => {
-            return await PrestadorModel.get(parent.id as any);
+            return await empresaModel.get(parent.id as any);
         }
     }
 }
