@@ -4,7 +4,7 @@ import type { CategoriaType } from "../../utils/types.js";
 
 export const categoriaResolver = {
     Query: {
-        getAllEmpresa: async () => {
+        getAllEmpresa: async (_: any, args: any) => {
             return await categoriaModel.getAll();
         },
         getEmpresaById: async (_: any, args: { id: string }) => {

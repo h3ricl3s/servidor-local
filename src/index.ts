@@ -11,11 +11,16 @@ import dotenv from "dotenv";
 import { ApolloServer } from "@apollo/server";
 import { typeDefs, resolvers } from "./graphql/index.js";
 import { expressMiddleware } from "@as-integrations/express5";
+import cors from "cors";
+
 
 const app = express()
 app.use(express.json())
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+    }))
 
-dotenv.config();
 
 app.use("/services", serviceRouter);
 app.use("/users", usersRouter);
@@ -47,3 +52,6 @@ app.get("/", (req: Request, res: Response) => {
 app.listen(8080, () => {
     console.log("Server running on port 8080");
 });
+
+
+dotenv.config();

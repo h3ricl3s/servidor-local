@@ -1,6 +1,10 @@
 
-import { gql } from "graphql-tag";
-     enum Role {
+import { gql } from "graphql-tag"
+     
+
+export const typeDefs = gql`
+
+    enum Role {
         CLIENTE,
         ADMIN,
         PRESTADOR,
@@ -22,7 +26,7 @@ import { gql } from "graphql-tag";
         EMPRESA
     }
 
-export const typeDefs = gql`
+
     type Utilizador {
         id: ID!,
         nome: String!,
@@ -37,7 +41,7 @@ export const typeDefs = gql`
         enabled: Boolean,
         created_at: String,
         updated_at: String
-    };
+    }
     type Proposta {
         id: ID!,
         id_prestador: Prestador,
@@ -49,7 +53,7 @@ export const typeDefs = gql`
         enabled: Boolean,
         created_at: String,
         updated_at: String
-    };
+    }
     type PrestacaoServico {
         id: ID!,
         designacao: String!,
@@ -67,7 +71,7 @@ export const typeDefs = gql`
         enabled: Boolean,
         created_at: String,
         updated_at: String
-    };
+    }
     type Orcamento {
         id: ID!,
         total: Float!,
@@ -76,7 +80,7 @@ export const typeDefs = gql`
         enabled: Boolean,
         created_at: String,
         updated_at: String
-    };
+    }
     type Empresa {
         id: ID!,
         designacao: String!,
@@ -88,19 +92,19 @@ export const typeDefs = gql`
         enabled: Boolean,
         created_at: String,
         updated_at: String
-    };
+    }
     type Prestador {
         id: ID!,
-        id_prestador: string,
-        id_prestacao_servico: string,
+        id_prestador: String,
+        id_prestacao_servico: String,
         preco_hora: Float,
         horas_estimadas: Int,
-        estado: string,
-        owner: string,
+        estado: String,
+        owner: String,
         enabled: Boolean,
         created_at: String,
         updated_at: String
-    };
+    }
     type Servico {
         id: ID!,
         nome: String!,
@@ -109,14 +113,15 @@ export const typeDefs = gql`
         enabled: Boolean,
         created_at: String,
         updated_at: String
-};
-type Categoria {
-    id: ID!,
-    nome: String!,
-    descricao: String!,
-    enabled: Boolean,
-    created_at: String,
-    updated_at: String
+    }
+    type Categoria {
+        id: ID!,
+        nome: String!,
+        descricao: String!,
+        enabled: Boolean,
+        created_at: String,
+        updated_at: String
+    }
 
 type Query {
     getAllUsers: [Utilizador]
@@ -129,7 +134,7 @@ type Query {
     getEmpresaById(id: ID!): Empresa
     getAllPrestador: [Prestador]
     getPrestadorById(id: ID!): Prestador
-    getAllOrcamento: [Orcamento]
+    getAllOrcamentos: [Orcamento]
     getOrcamentoById(id: ID!): Orcamento
     getAllPrestacaoServico: [PrestacaoServico]
     getPrestacaoServicoById(id: ID!): PrestacaoServico
@@ -138,7 +143,7 @@ type Query {
 
 }
  type Mutation {
-    createUtilizador(
+    createUser(
     nome: String!,
     numero_identificacao: String!,
     data_nascimento: String!,
@@ -149,9 +154,9 @@ type Query {
     password: String,
     role: Role,
     enabled: Boolean
-    ): Utilizador
+    ):Utilizador
     
-    updateUtilizador(
+    updateUser(
         id: ID!,
         nome: String!,
         numero_identificacao: String!,
@@ -163,43 +168,33 @@ type Query {
         password: String,
         role: Role,
         enabled: Boolean
-        ):
-        
-        Utilizador
-    deleteUtilizador(id: ID!): Utilizador
+        ): Utilizador
+    deleteUser(id: ID!): Utilizador
     createServico(
         nome: String!, 
         descricao: String!, 
         categoria: String!, 
         enabled: Boolean
-        ):
-        
-        Servico
+        ):Servico
     updateServico(
         id: ID!, 
         nome: String!, 
         descricao: String!, 
         categoria: String!, 
         enabled: Boolean
-        ):
-        
-        Servico
+        ):  Servico
     deleteServico(id: ID!): Servico
     createCategoria(
         nome: String!, 
         descricao: String!, 
         enabled: Boolean
-        ):
-        
-        Categoria
+        ):Categoria
     updateCategoria(
         id: ID!, 
         nome: String!, 
         descricao: String!, 
         enabled: Boolean
-        ):
-        
-        Categoria
+        ): Categoria
     deleteCategoria(id: ID!): Categoria
     createEmpresa(
         designacao: String!, 
@@ -209,9 +204,7 @@ type Query {
         id_utilizador: String!, 
         localidade: String!, 
         enabled: Boolean
-        ):
-        
-        Empresa
+        ):Empresa
     updateEmpresa(
         id: ID!, 
         designacao: String!, 
@@ -221,33 +214,27 @@ type Query {
         id_utilizador: String!, 
         localidade: String!, 
         enabled: Boolean
-        ):
-        
-        Empresa
+        ):Empresa
     deleteEmpresa(id: ID!): Empresa
     createPrestador(
-        id_prestador: string, 
-        id_prestacao_servico: string, 
+        id_prestador: String, 
+        id_prestacao_servico: String, 
         preco_hora: Float, 
         horas_estimadas: Int, 
-        estado: string, 
-        owner: string, 
+        estado: String, 
+        owner: String, 
         enabled: Boolean
-        ):
-
-        Prestador
+        ):Prestador
     updatePrestador(
         id: ID!, 
-        id_prestador: string, 
-        id_prestacao_servico: string, 
+        id_prestador: String, 
+        id_prestacao_servico: String, 
         preco_hora: Float, 
         horas_estimadas: Int, 
-        estado: string, 
-        owner: string, 
+        estado: String, 
+        owner: String, 
         enabled: Boolean
-        ):
-
-        Prestador
+        ): Prestador
     deletePrestador(id: ID!): Prestador
     createOrcamento(
         total: Float!, 
@@ -261,9 +248,7 @@ type Query {
         id_utilizador: ID!, 
         id_prestador: ID!, 
         enabled: Boolean
-        ):
-        
-        Orcamento
+        ): Orcamento
     deleteOrcamento(id: ID!): Orcamento
     createPrestacaoServico(
         designacao: String!, 
@@ -279,9 +264,7 @@ type Query {
         tipo_prestador: String!, 
         urgente: Boolean!, 
         enabled: Boolean!
-        ):
-         
-        PrestacaoServico
+        ): PrestacaoServico
     updatePrestacaoServico(
         id: ID!, 
         designacao: String!, 
@@ -297,9 +280,7 @@ type Query {
         tipo_prestador: String!, 
         urgente: Boolean!, 
         enabled: Boolean!
-        ):
-
-        PrestacaoServico
+        ): PrestacaoServico
     deletePrestacaoServico(id: ID!): PrestacaoServico
     createProposta(
         id_prestador: ID!, 
@@ -323,20 +304,5 @@ type Query {
         ): Proposta
     deleteProposta(id: ID!): Proposta
     }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 `
