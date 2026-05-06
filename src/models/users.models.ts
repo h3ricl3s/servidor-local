@@ -8,7 +8,9 @@ import type { RowDataPacket } from "mysql2";
 
 export const usersModel = {
     async create(user: UserType): Promise<UserType | null> {
+        console.log({ user });
         try {
+            
             const [rows] = await db.execute<UserType & RowDataPacket[]>(
                 `INSERT INTO tabela_utilizadores (
                     id,
