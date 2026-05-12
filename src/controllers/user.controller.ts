@@ -207,21 +207,10 @@ export const userController = {
             return res.status(400).json(response);
         }
 
-        const deleteUserResponse: UserType | null = await usersModel.delete(id);
-
-        if (!deleteUserResponse) {
-            const response: ResponseType<null> = {
-                status: "error",
-                message: "Erro ao apagar utilizador",
-                data: null,
-            };
-            return res.status(400).json(response);
-        }
-
         const response: ResponseType<UserType> = {
             status: "sucess",
             message: "Utilizador apagado com sucesso",
-            data: deleteUserResponse,
+            data: null,
         };
         return res.status(200).json(response);
     },
